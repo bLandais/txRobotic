@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TX-Robotic - Scratch - ISEN</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" media="screen"/>
+</head>
+<body>
+
+<!-- /loading -->
+<div class="loading-overlay" id="loadingFlash">
+    <div class="loading-content">
+        <div class="loading-icon"><img src="images/sablier_318-56435.jpg" height="209" width="370" alt="loading_panda">
+        </div>
+        <div class="loading-bar">
+            <div class="bar-percentage">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /loading-overlay -->
+
+<webview id="webview" src="http://localhost:7070/core.html" width="100%" height="100%" plugins nodeintegration
+         disablewebsecurity="on"></webview>
+<script src="js/index.js"></script>
+</body>
+</html>
