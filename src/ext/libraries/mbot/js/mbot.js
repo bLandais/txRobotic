@@ -4,6 +4,25 @@
     var device = null;
     var _rxBuf = [];
 
+
+    var PIN_MODE = 0xF4,
+    	REPORT_DIGITAL = 0xD0,
+        REPORT_ANALOG = 0xC0,
+        DIGITAL_MESSAGE = 0x90,
+        START_SYSEX = 0xF0,
+        END_SYSEX = 0xF7,
+        QUERY_FIRMWARE = 0x79,
+        REPORT_VERSION = 0xF9,
+        ANALOG_MESSAGE = 0xE0,
+        ANALOG_MAPPING_QUERY = 0x69,
+        ANALOG_MAPPING_RESPONSE = 0x6A,
+        CAPABILITY_QUERY = 0x6B,
+        CAPABILITY_RESPONSE = 0x6C;
+
+	var MOTOR = 0xA1,
+		LED = 0xA2,
+        BUZZER = 0xA3;
+
     // Sensor states:
     var ports = {
         Port1: 1,
@@ -95,6 +114,26 @@
 	ext.runArduino = function(){
 		responseValue();
 	};
+	
+	// ============================ LED Functions ================================
+	
+	function setColorUnit(numLed, R, G, B) {
+    	var msg = [START_SYSEX,LED, 1, numLed, R, G, B,END_SYSEX];
+        device.send(msg);
+    }
+
+    ext.setColorUnit = function(numLed, R, G, B){
+    	var threshold = 255;
+        if (R > threshold) R = 255;
+        if (R < 0) R = 0;
+        if (G > threshold) G = 255;
+        if (G < 0) G = 0;
+        if (B > threshold) B = 255;
+        if (B < 0) B = 0;       
+        setColorUnit(numLed, R, G, B); 
+    }
+    
+    // ========================== END LED functions =============================
 	
 	ext.runBot = function(direction,speed) {
 		var leftSpeed = 0;
