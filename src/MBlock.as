@@ -193,7 +193,10 @@ package {
 			track("/app/launch");
 			new InvokeMgr();
 			stage.nativeWindow.addEventListener(Event.CLOSING,onExiting);
-			AppUpdater.getInstance().start();
+			
+			// We don't want update yet
+			// AppUpdater.getInstance().start();
+			
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
