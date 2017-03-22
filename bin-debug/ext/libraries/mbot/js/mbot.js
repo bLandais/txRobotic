@@ -4,6 +4,27 @@
     var device = null;
     var _rxBuf = [];
 
+    var PIN_MODE = 0xF4,
+    	REPORT_DIGITAL = 0xD0,
+        REPORT_ANALOG = 0xC0,
+        DIGITAL_MESSAGE = 0x90,
+        START_SYSEX = 0xF0,
+        END_SYSEX = 0xF7,
+        QUERY_FIRMWARE = 0x79,
+        REPORT_VERSION = 0xF9,
+        ANALOG_MESSAGE = 0xE0,
+        ANALOG_MAPPING_QUERY = 0x69,
+        ANALOG_MAPPING_RESPONSE = 0x6A,
+        CAPABILITY_QUERY = 0x6B,
+        CAPABILITY_RESPONSE = 0x6C;
+
+	var MOTOR = 0xA1,
+		LED = 0xA2,
+        BUZZER = 0xA3,
+        EMOTION = 0xA4,
+		BUTTON = 0xA5,
+		SENSOR = 0xA6;
+
     // Sensor states:
     var ports = {
         Port1: 1,
@@ -90,11 +111,126 @@
 	var versionIndex = 0xFA;
 	var responsePreprocessor = {};
     ext.resetAll = function(){
-    	device.send([0xff, 0x55, 2, 0, 4]);
+    	// Cette fonction est appellée lorsque l'on clique sur le flag vert.
     };
 	ext.runArduino = function(){
 		responseValue();
 	};
+	
+	function queryFirmware() {
+    	device.send([START_SYSEX, QUERY_FIRMWARE, END_SYSEX]);
+	}
+	
+	// ============================ LED Functions ================================
+	
+	function setColorUnit(numLed, R, G, B) {
+    	var msg = [START_SYSEX,LED, 1, numLed, R, G, B,END_SYSEX];
+        device.send(msg);
+    }
+
+    ext.setColorUnit = function(numLed, R, G, B){
+    	var threshold = 255;
+        if (R > threshold) R = threshold;
+        if (R < 0) R = 0;
+        if (G > threshold) G = threshold;
+        if (G < 0) G = 0;
+        if (B > threshold) B = threshold;
+        if (B < 0) B = 0;       
+        setColorUnit(numLed, R, G, B); 
+    }
+    
+     //----------------------------------------------------------------------------
+
+	function setColorAll(R,G,B){
+    	device.send([START_SYSEX, LED, 2, R, G, B, END_SYSEX]);
+    }
+
+	ext.setColorAll = function(R, G, B){
+        var threshold = 255;
+        if (R > threshold) R = threshold;
+        if (R < 0) R = 0;
+        if (G > threshold) G = threshold;
+        if (G < 0) G = 0;
+        if (B > threshold) B = threshold;
+        if (B < 0) B = 0;  
+    	setColorAll(R, G, B);
+	}
+    
+    //----------------------------------------------------------------------------
+
+    function setColor(nbrColor) {
+        device.send([START_SYSEX, LED, 3, nbrColor, END_SYSEX]);
+	}
+
+	ext.setColor = function(couleur){
+        var nbrColor = 0;
+		switch(couleur) {
+            case "blanc":
+                nbrColor = 0
+            	break;
+            case "rouge":
+                nbrColor = 1
+            	break;
+            case "bleu":
+                nbrColor = 2
+            	break;
+            case "vert":
+                nbrColor = 3
+            	break;
+            case "turquoise":
+                nbrColor = 4
+            	break;
+            case "orange":
+                nbrColor = 5
+            	break;
+            case "gris":
+                nbrColor = 6
+            	break;
+			case "jaune":
+                nbrColor = 7
+            	break;
+			case "magenta":
+                nbrColor = 8
+            	break;
+			case "violet":
+                nbrColor = 9
+            	break;
+            default:
+        		nbrColor = 0
+        }
+    	setColor(nbrColor);
+    }
+    
+    
+    // ========================== END LED functions =============================
+	
+	
+	/*==============================================================================
+    * EMOTION FONCTIONS
+    *============================================================================*/
+
+        function expression(emotionNbr,matrixNbr) {
+            device.send([START_SYSEX,EMOTION,emotionNbr,matrixNbr,END_SYSEX]);
+        }
+        ext.expression = function(emotion,wichMatrix) {
+            var emotionNbr = 0;
+            var matrixNbr = 0;
+            if (emotion == "happy")         emotionNbr = 1;
+            else if (emotion == "inLove")   emotionNbr = 2;
+            else if (emotion == "crazyEye") emotionNbr = 3;
+            else if (emotion == "deadEye")  emotionNbr = 4;
+            else if (emotion == "snowEye")  emotionNbr = 5;
+            else if (emotion == "starEye")  emotionNbr = 6;
+
+            if (wichMatrix == "l'oeil gauche")      matrixNbr = 1;
+            else if (wichMatrix == "l'oeil droit")  matrixNbr = 2;
+            else if (wichMatrix == "les 2 yeux")    matrixNbr = 3;
+
+            expression(emotionNbr,matrixNbr);
+        }
+        
+    // ===================================== END Emotion functions ===========================
+	
 	
 	ext.runBot = function(direction,speed) {
 		var leftSpeed = 0;
@@ -578,7 +714,7 @@
         // That will get us back here next time a device is connected.
         device = potentialDevices.shift();
         if (device) {
-            device.open({ stopBits: 0, bitRate: 115200, ctsFlowControl: 0 }, deviceOpened);
+            device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 }, deviceOpened);
         }
     }
 

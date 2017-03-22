@@ -5,10 +5,16 @@
 	"javascriptURL":"js/mbot.js",
 	"isMakeBlockBoard":true,
 	"blockSpecs": [
-		["h","mBot Program","runArduino",{"src":"mbot","inc":"#include <MeMCore.h>\n","def":"","setup":"","loop":""}],
+		["h","txRobotic Program","runArduino",{"src":"mbot","inc":"#include <MeMCore.h>\n","def":"","setup":"","loop":""}],
 		
 		["-"],
-	
+		
+		// Blocks LED
+		["w", "Régler la LED %m.numLed à R: %n G: %n B: %n", "setColorUnit", 1],
+		["w", "Allumer les LED à R: %n G: %n B: %n", "setColorAll", "10", "10", "10"],
+		["w", "Choisir la couleur de la LED : %m.couleur ","setColor", "blanc"], // Ne fonctionne pas... pas implémentée ?
+		["w", "Mettre expression faciale %m.emotion sur %m.wichMatrix", "expression", "happy", "les 2 yeux"],
+			
 		["w", "%m.direction at speed %d.motorvalue","runBot", "run forward", 0,
 		{"encode":"{d0}{s1}","setup":"","inc":"","def":"","work":"move({0},{1});\n","loop":""}],
 		
@@ -131,6 +137,11 @@
 		
 	],
 	"menus": {
+		"numLed": ["1","2","3","4","5","6"],
+		"couleur": ["blanc", "rouge", "vert", "bleu", "turquoise", "orange", "gris", "jaune", "magenta", "violet"],
+		"emotion": ["happy", "inLove", "crazyEye", "deadEye", "snowEye", "starEye"],
+        "wichMatrix": ["l'oeil gauche","l'oeil droit","les 2 yeux"],
+            
 		"yellowPorts":["Port1","Port2","Port3","Port4"],
     	"bluePorts":["Port1","Port2","Port3","Port4"],
     	"grayPorts":[],
