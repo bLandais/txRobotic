@@ -560,17 +560,17 @@ void updateVar(char * varName,double * var)
 			var valuecode:String = valuestring is CodeObj?valuestring.code:valuestring;
 			if(modtype=="available"){
 				if(iotype=="serial"){
-					setupcode = StringUtil.substitute("Serial.begin(115200);\n")
+					setupcode = StringUtil.substitute("Serial.begin(57600);\n")
 					workcode=StringUtil.substitute("dataLineAvailable()");
 				}
 			}else if(modtype=="read"){
 				if(iotype=="serial"){
-					setupcode = StringUtil.substitute("Serial.begin(115200);\n")
+					setupcode = StringUtil.substitute("Serial.begin(57600);\n")
 					workcode=StringUtil.substitute("readDataLine()");
 				}
 			}else if(modtype=="write"){
 				if(iotype=="serial"){
-					setupcode = StringUtil.substitute("Serial.begin(115200);\n");
+					setupcode = StringUtil.substitute("Serial.begin(57600);\n");
 					if(modslot=="command"){
 						workcode = StringUtil.substitute("Serial.print(\"{0}=\");Serial.println({1});\n",portcode,valuecode);
 					}else if(modslot=="update"){

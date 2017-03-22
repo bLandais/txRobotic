@@ -155,7 +155,7 @@ package extensions
 		public function get device():String{
 			return _device;
 		}
-		public function open(port:String,baud:uint=115200):Boolean{
+		public function open(port:String,baud:uint=57600):Boolean{
 			if(_serial.isConnected){
 				_serial.close();
 			}
@@ -376,7 +376,7 @@ package extensions
 					v.push("-patmega2560");
 					v.push("-cwiring");
 					v.push("-P"+currentPort);
-					v.push("-b115200");
+					v.push("-b57600");
 					v.push("-D");
 					v.push("-U");
 					if(_hexToDownload.length==0){

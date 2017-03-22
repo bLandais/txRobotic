@@ -4,7 +4,6 @@
     var device = null;
     var _rxBuf = [];
 
-
     var PIN_MODE = 0xF4,
     	REPORT_DIGITAL = 0xD0,
         REPORT_ANALOG = 0xC0,
@@ -109,11 +108,16 @@
 	var versionIndex = 0xFA;
 	var responsePreprocessor = {};
     ext.resetAll = function(){
-    	device.send([0xff, 0x55, 2, 0, 4]);
+    	device.send([0xf0, LED, 2, 0x0a, 0x0a, 30, 0xf7]);
+    	setColorUnit(4, 200, 0, 0);
     };
 	ext.runArduino = function(){
 		responseValue();
 	};
+	
+	function queryFirmware() {
+    	device.send([START_SYSEX, QUERY_FIRMWARE, END_SYSEX]);
+	}
 	
 	// ============================ LED Functions ================================
 	
@@ -124,11 +128,11 @@
 
     ext.setColorUnit = function(numLed, R, G, B){
     	var threshold = 255;
-        if (R > threshold) R = 255;
+        if (R > threshold) R = threshold;
         if (R < 0) R = 0;
-        if (G > threshold) G = 255;
+        if (G > threshold) G = threshold;
         if (G < 0) G = 0;
-        if (B > threshold) B = 255;
+        if (B > threshold) B = threshold;
         if (B < 0) B = 0;       
         setColorUnit(numLed, R, G, B); 
     }
@@ -612,12 +616,17 @@
         }
     }
 
+	var poller = null;
     function tryNextDevice() {
         // If potentialDevices is empty, device will be undefined.
         // That will get us back here next time a device is connected.
         device = potentialDevices.shift();
         if (device) {
-            device.open({ stopBits: 0, bitRate: 115200, ctsFlowControl: 0 }, deviceOpened);
+            device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 }, deviceOpened);
+            
+            poller = setInterval(function() {
+                queryFirmware();
+            }, 1000);
         }
     }
 

@@ -154,11 +154,6 @@ package {
 			app = this;
 			addEventListener(Event.ADDED_TO_STAGE,initStage);
 			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, __onError);
-//			trace(DESParser.decryptDES("123456","2YNQ6N8ahls0YmQ1NGI3OTkzMWM2OWM5YTczNDUzNGQ="));
-//			trace(DESParser.encryptDES("123456",'05f40ce31c9e4d339c75a77007d479b8'));//face
-//			trace(DESParser.encryptDES("123456",'212ea29742574cae8add9ad79abcfe4a'));//speech
-//			trace(DESParser.encryptDES("123456",'2a71aa9ef2fc478e8e35b13ca65d9e3f'));//emotion
-//			trace(DESParser.encryptDES("123456",'d30bb3fa0e40461eaf1d0b11b609a75a'));//text
 			SharedObjectManager.sharedManager().loadRemoteConfig();
 		}
 		static private var errorFlag:Boolean;
@@ -167,7 +162,7 @@ package {
 			var errorText:String;
 			if(evt.error is Error){
 				errorText = (evt.error as Error).getStackTrace();
-			}else if(evt.error is ErrorEvent){
+			} else if(evt.error is ErrorEvent){
 				errorText = (evt.error as ErrorEvent).text;
 			}
 			if(!Boolean(errorText) || errorFlag){
@@ -175,8 +170,7 @@ package {
 			}
 			errorFlag = true;
 			ErrorReportFrame.OpenSendWindow(errorText);
-			if(saveNeeded)
-			{
+			if(saveNeeded) {
 				autoSaveFile();
 			}
 			
@@ -189,7 +183,10 @@ package {
 			UIManager.setLookAndFeel(new MyLookAndFeel());
 			AppTitleMgr.Instance.init(stage.nativeWindow);
 //			ApplicationManager.sharedManager().isCatVersion = NativeApplication.nativeApplication.applicationDescriptor.toString().indexOf("猫友")>-1;
-			ga = new GATracker(this,"UA-54268669-1","AS3",false);
+			
+			// TODO : We can see what we will do with this Google analytics... for now, we ignore it 
+			// ga = new GATracker(this,"UA-54268669-1","AS3",false);
+			
 			track("/app/launch");
 			new InvokeMgr();
 			stage.nativeWindow.addEventListener(Event.CLOSING,onExiting);
@@ -250,21 +247,22 @@ package {
 			if(!SharedObjectManager.sharedManager().getObject("mblock-first-launch",false))
 			{
 				SharedObjectManager.sharedManager().setObject("mblock-first-launch",true);
-				ga.trackPageview(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + "/mblock-first-launch";
+				// TODO : Google analystics... again ! 
+				// ga.trackPageview(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + "/mblock-first-launch";
 			}
+			// S'il ne trouve pas les fichiers avec les librairies, il les reinsère...
 			if(!SharedObjectManager.sharedManager().getObject(versionString+".0."+_currentVer,false)){
 				//SharedObjectManager.sharedManager().clear();
 				SharedObjectManager.sharedManager().setObject(versionString+".0."+_currentVer,true);
 				extensionsPath.deleteDirectory(true);
 				extensionManager.copyLocalFiles();
 				SharedObjectManager.sharedManager().setObject("first-launch",true);
-				
-				//SharedObjectManager.sharedManager().setObject("board","mbot_uno");
 			}
 			//VersionManager.sharedManager().start(); //在线更新资源文件
 			if(SharedObjectManager.sharedManager().getObject("first-launch",true)){
 				SharedObjectManager.sharedManager().setObject("first-launch",false);
-				openWelcome();
+				// TODO : Maybe we can create our own welcome message
+				// openWelcome();
 			}
 			initExtension();
 			MenuBuilder.BuildMenuList(XMLList(FileUtil.LoadFile("assets/context_menus.xml")));
@@ -335,9 +333,10 @@ package {
 		}
 		
 		public function track(msg:String):void{
-			ga.trackPageview(
+			/* TODO : Google tracking system
+			   ga.trackPageview(
 				(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + MBlock.versionString + msg
-			);
+			);*/
 		}
 		
 		protected function initTopBarPart():void {

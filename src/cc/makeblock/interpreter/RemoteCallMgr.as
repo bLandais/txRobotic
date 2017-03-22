@@ -28,7 +28,7 @@ package cc.makeblock.interpreter
 	
 		public function interruptThread():void
 		{
-			if(requestList.length <= 0){
+			if(requestList.length <= 0) {
 				return;
 			}
 			var info:Array = requestList.shift();
@@ -47,16 +47,16 @@ package cc.makeblock.interpreter
 
 		public function onPacketRecv(value:Object=null):void
 		{
-			if(requestList.length <= 0){
+			if(requestList.length <= 0) {
 				return;
 			}
 			var info:Array = requestList.shift();
 			var thread:Thread = info[0];
-			if(thread != null){
-				if(info[4] > 0){
-					if(arguments.length > 0){
+			if(thread != null) {
+				if(info[4] > 0) {
+					if(arguments.length > 0) {
 						thread.push(value);
-					}else{
+					} else {
 						thread.push(0);
 					}
 				}
@@ -71,25 +71,23 @@ package cc.makeblock.interpreter
 		{
 			var needSend:Boolean = (0 == requestList.length);
 			requestList.push(arguments);
-			if(needSend){
+			if(needSend) {
 				send();
 			}
 		}
 		
 		private function send():void
 		{
-			if(requestList.length <= 0){
+			if(requestList.length <= 0) {
 				return;
 			}
 			var info:Array = requestList[0];
 			var ext:ScratchExtension = info[3];
 			ext.js.call(info[1], info[2], null);
-			if(info[1]=="runBuzzer")
-			{
+			if(info[1]=="runBuzzer") {
 				timerId = setTimeout(onTimeout, 5000);
 			}
-			else
-			{
+			else {
 				timerId = setTimeout(onTimeout, 500);
 			}
 			
@@ -97,13 +95,14 @@ package cc.makeblock.interpreter
 		
 		private function onTimeout():void
 		{
-			if(requestList.length <= 0){
+			if(requestList.length <= 0) {
 				return;
 			}
 			var info:Array = requestList[0];
-			if(info[4] > 0){
+			if(info[4] > 0) {
 				onPacketRecv(oldValue);
-			}else{
+			}
+			else {
 				onPacketRecv();
 			}
 		}

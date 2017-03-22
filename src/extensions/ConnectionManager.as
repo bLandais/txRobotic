@@ -105,7 +105,7 @@ package extensions
 				}
 			}
 		}
-		public function open(port:String,baud:uint=115200):Boolean{
+		public function open(port:String,baud:uint=57600):Boolean{
 			LogManager.sharedManager().log("connection:"+port);
 			if(port){
 				if(port.indexOf("COM")>-1||port.indexOf("/dev/tty.")>-1){

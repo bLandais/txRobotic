@@ -32,7 +32,7 @@ package cc.makeblock.updater
 			return _instance;
 		}
 		
-		static public const CONFIG_PATH:String = "http://mblock.cc/download/";
+		static public const CONFIG_PATH:String = "http://robottx-ro.github.io";
 		
 		private var ldr:URLLoader;
 //		private var frame:UpdateFrame;
@@ -86,14 +86,7 @@ package cc.makeblock.updater
 				_checkBox.setBorder(new EmptyBorder(null, new Insets(10, 0, 0, 0)));
 				panel.append(_checkBox, BorderLayout.NORTH);
 				panel.getFrame().setSizeWH(240, 130);
-				if(Capabilities.language=="zh-CN")
-				{
-					PopupUtil.appendText(panel,"What's New","http://www.mblock.cc/release-logs-cn");
-				}
-				else
-				{
-					PopupUtil.appendText(panel,"What's New","http://www.mblock.cc/release-logs");
-				}
+				PopupUtil.appendText(panel,"What's New","http://robottx-ro.github.io/release");
 				
 			}else{
 				VersionManager.sharedManager().start();

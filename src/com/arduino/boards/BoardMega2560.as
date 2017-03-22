@@ -7,7 +7,7 @@ package com.arduino.boards
 	{
 		public function BoardMega2560()
 		{
-			super("atmega2560", "wiring", 115200);
+			super("atmega2560", "wiring", 57600);
 		}
 		
 		override public function getLibList(rootDir:File, result:Array):void
