@@ -215,6 +215,7 @@ package {
 //			try{
 				extensionManager = new ExtensionManager(this);
 				var extensionsPath:File = ApplicationManager.sharedManager().documents.resolvePath("mBlock");
+				extensionManager.copyLocalFiles();
 				if(!extensionsPath.exists){
 					SharedObjectManager.sharedManager().clear();
 					SharedObjectManager.sharedManager().setObject(versionString+".0."+_currentVer,true);
