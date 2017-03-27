@@ -252,6 +252,7 @@ package {
 				// ga.trackPageview(ApplicationManager.sharedManager().isCatVersion?"/myh/":"/") + "/mblock-first-launch";
 			}
 			// S'il ne trouve pas les fichiers avec les librairies, il les reinsère...
+			extensionManager.copyLocalFiles();
 			if(!SharedObjectManager.sharedManager().getObject(versionString+".0."+_currentVer,false)){
 				//SharedObjectManager.sharedManager().clear();
 				SharedObjectManager.sharedManager().setObject(versionString+".0."+_currentVer,true);
