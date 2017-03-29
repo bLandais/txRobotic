@@ -201,9 +201,130 @@
     	setColor(nbrColor);
     }
     
+    // ------------------------------------------------------
+    
+	function ledOnOff(etat){
+		device.send([START_SYSEX,LED, 4, etat, END_SYSEX]);
+	}
+
+    ext.ledOnOff = function(val){
+    	if (val == "On") etat = 1;
+    	if (val == "Off") etat = 0;
+    	ledOnOff(etat);
+    }
+    
     
     // ========================== END LED functions =============================
 	
+	/*==============================================================================
+	* BUZZER FUNCTIONS
+	*=============================================================================*/
+	
+	//----------------------------------------------------------------------------
+
+	function setDelayRythme(time) {
+		device.send([START_SYSEX, BUZZER,5, time, END_SYSEX]);
+	}
+
+	ext.setDelayRythme = function(time)  {
+    	var timeBis = 1;
+		if (time == 0) time = timeBis;
+		setDelayRythme(time);
+	}
+	
+	//----------------------------------------------------------------------------
+	
+	function buzzerOnOff(state) {
+		device.send([START_SYSEX, BUZZER,8, state, END_SYSEX]);
+	}
+
+	ext.buzzerOnOff = function(state){
+    	if (state == "On") etat = 1;
+        if (state == "Off") etat = 0;
+		buzzerOnOff(etat);
+	}
+	
+	//----------------------------------------------------------------------------
+
+	function buzzerOnOffDelay(state,time) {
+		device.send([START_SYSEX, BUZZER,9, state, time, END_SYSEX]);
+	}
+
+    ext.buzzerOnOffDelay = function(state,time){
+		var timeBis = 1;
+		if (time == 0) time = timeBis;
+		if (state == "On") etat = 1;
+		if (state == "Off") etat = 0;
+		buzzerOnOffDelay(etat,time);
+	}
+	
+	//----------------------------------------------------------------------------
+
+	function setDelayAttente(time) {
+        device.send([START_SYSEX, BUZZER,6, time, END_SYSEX]);
+	}
+
+	ext.setDelayAttente = function(time) {
+    	var timeBis = 1;
+        if (time == 0) time = timeBis;
+        setDelayAttente(time);
+	}
+	
+	//----------------------------------------------------------------------------
+
+	function playNote(octave, newNote) {
+        device.send([START_SYSEX, BUZZER,2, octave, newNote, END_SYSEX]);
+	}
+
+    ext.playNote = function(octave,note)   {
+    	var newNote = 100;
+        switch (note){
+        	case "do": newNote = 1;
+            	break;
+			case "do#": newNote = 2;
+            	break;
+			case "re": newNote = 3;
+            	break;
+			case "re#": newNote = 4;
+            	break;
+			case "mi": newNote = 5;
+            	break;
+			case "fa": newNote = 6;
+            	break; 
+			case "fa#": newNote = 7;
+            	break;
+			case "sol": newNote = 8;
+            	break;
+			case "sol#": newNote = 9;
+            	break;   
+			case "la": newNote = 10;
+            	break;
+			case "la#": newNote = 11;
+            	break;
+			case "si": newNote = 12;
+            	break;
+			default: 
+            	break;               
+        }
+    	playNote(octave,newNote);
+	}
+
+	//----------------------------------------------------------------------------
+
+	function playSonDelay(frequency, time) {
+        device.send([START_SYSEX, BUZZER,4, frequency, time, END_SYSEX]);
+	}
+
+    ext.playSonDelay = function(frequency,time)    {
+    	var threshold_d = 80;
+        var threshold_u = 8000; 
+        if (frequency < threshold_d) frequency = threshold_d;
+        if (frequency > threshold_u) frequency = threshold_u;
+        var timeBis = 1;
+        if (time == 0) time = timeBis;
+        playSonDelay(frequency,time);
+	}
+
 	
 	/*==============================================================================
     * EMOTION FONCTIONS

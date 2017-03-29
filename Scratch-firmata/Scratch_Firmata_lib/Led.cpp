@@ -11,11 +11,11 @@
  * Created on 25 octobre 2016, 16:29
 */
 
+#include <Adafruit_NeoPixel.h>
 #include <StandardCplusplus.h>
 #include <vector>
 
 #include "Led.h"
-#include "Arduino.h"
 
 
 Led::Led(int newPin, int newNumber) {

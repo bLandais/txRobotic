@@ -38,7 +38,7 @@ Last updated by Jeff Hoefs: August 9th, 2015
 #include <StandardCplusplus.h>
 #include <vector>
 
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "SensorType.h"
 #include "Sensor.h"
 #include "Motor.h"
@@ -70,7 +70,7 @@ Last updated by Jeff Hoefs: August 9th, 2015
 
 using namespace std;
 int choice = -1;
-int locations = 2;
+int locations = 4;
 
 //------Motors--------://
 Motor motor_l = Motor(9, 8, 10);
@@ -83,6 +83,7 @@ Sensor sensorAvM = Sensor(39, A11, 130, SensorType::infraR, 0);
 Sensor sensorAvD = Sensor(41, A12, 130, SensorType::infraR, 1);
 
 //------LEDs----------://
+Led backLeds = Led(12, 5);
 Led frontLeds = Led(44, 6);
 
 //------buttons-------://
@@ -92,17 +93,20 @@ Button btn_right = Button(24);
 Button btn_down = Button(25);
 Button btn_valid = Button(26);
 
+//------Controls-------://
+ControlPanel controls(5);
+
 //------Buzzer---------://
 Buzzer buzzer(11);
 
 //------Son------------://
-Buzzer speaker_main = Buzzer(11);
+Buzzer speaker = Buzzer(11);
 
 //------menu-------://
 Menu menu = Menu(locations);
 
 //------robot-------://
-// Program robot = Program(2,7);
+Program robot = Program(2,7);
 
 //------Init-Emotions--://
 
@@ -644,7 +648,6 @@ void sysexCallback(byte command, byte argc, byte *argv)
 
 		break;
 	case LED:
-
 		switch (argv[0]) {
 			case 1: frontLeds.setColorUnit(argv[1], argv[2], argv[3], argv[4]);
 				break;
@@ -662,23 +665,23 @@ void sysexCallback(byte command, byte argc, byte *argv)
 	case BUZZER:
 
 		switch (argv[0]) {
-			case 1: speaker_main.playSon(argv[1]);
+			case 1: speaker.playSon(argv[1]);
 				break;
-			case 2: speaker_main.playNote(argv[1],argv[2]);
+			case 2: speaker.playNote(argv[1],argv[2]);
 				break;
 			case 3: 
 				break;
-			case 4: speaker_main.playSonDelay(argv[1],argv[2]);
+			case 4: speaker.playSonDelay(argv[1],argv[2]);
 				break;
-			case 5: speaker_main.setDelayRythme(argv[1]);
+			case 5: speaker.setDelayRythme(argv[1]);
 				break;
-			case 6: speaker_main.setDelayAttente(argv[1]);
+			case 6: speaker.setDelayAttente(argv[1]);
 				break;
-			case 7: speaker_main.playMelody(argv[1]);
+			case 7: speaker.playMelody(argv[1]);
 				break;
-			case 8: speaker_main.buzzerOnOff(argv[1]);
+			case 8: speaker.buzzerOnOff(argv[1]);
 				break;
-			case 9: speaker_main.buzzerOnOffDelay(argv[1],argv[2]);
+			case 9: speaker.buzzerOnOffDelay(argv[1],argv[2]);
 				break;
 			default:
 				break;
@@ -712,6 +715,8 @@ void sysexCallback(byte command, byte argc, byte *argv)
 	}
 }
 
+
+
 void enableI2CPins()
 {
 	byte i;
@@ -720,7 +725,7 @@ void enableI2CPins()
 	for (i = 0; i < TOTAL_PINS; i++) {
 		if (IS_PIN_I2C(i)) {
 			// mark pins as i2c so they are ignore in non i2c data requests
-			setPinModeCallback(i, I2C);
+		//	setPinModeCallback(i, I2C);
 		}
 	}
 
@@ -762,11 +767,11 @@ void systemResetCallback()
 		// otherwise, pins default to digital output
 		if (IS_PIN_ANALOG(i)) {
 			// turns off pullup, configures everything
-			setPinModeCallback(i, ANALOG);
+		//	setPinModeCallback(i, ANALOG);
 		}
 		else {
 			// sets the output to 0, configures portConfigInputs
-			setPinModeCallback(i, OUTPUT);
+		//	setPinModeCallback(i, OUTPUT);
 		}
 
 		servoPinMap[i] = 255;
@@ -797,8 +802,22 @@ void setup() {
  
 	//------LEDs init-------://
 	frontLeds.init();
+	backLeds.init();
 
-	frontLeds.setColorAll(0, 0, 0);
+	//------Add component to robot-------://
+    controls.addButton(btn_right);
+    controls.addButton(btn_left);
+    controls.addButton(btn_down);
+    controls.addButton(btn_up);
+    controls.addButton(btn_valid);
+
+	robot.addLed(&frontLeds);
+	robot.addLed(&backLeds);
+	robot.setControls(&controls);
+
+	//------turning bot-------://
+	backLeds.setColorAll(255,255,255);
+	frontLeds.setColorAll(255, 255, 255);
 
 	//-------Son de bienvenu----://
 	//speaker_main.PlayMelody(WELCOMSONG);
@@ -810,7 +829,7 @@ void setup() {
 	Firmata.attach(DIGITAL_MESSAGE, digitalWriteCallback);
 	Firmata.attach(REPORT_ANALOG, reportAnalogCallback);
 	Firmata.attach(REPORT_DIGITAL, reportDigitalCallback);
-	Firmata.attach(SET_PIN_MODE, setPinModeCallback);
+	// Firmata.attach(SET_PIN_MODE, setPinModeCallback);
 	Firmata.attach(START_SYSEX, sysexCallback);
 	Firmata.attach(SYSTEM_RESET, systemResetCallback);
 
@@ -849,6 +868,8 @@ void setup() {
 	ledMatrix.maxAll(max7219_reg_intensity, 0x0f & 0x0f);    // the first 0x0f is the value you can set
 															 // range: 0x00 to 0x0f 
 
+
+	pinMode(24, INPUT);
 }
 
 
@@ -889,13 +910,15 @@ delay(1000);
 
 	byte pin, analogPin;
 
-	checkDigitalInputs();
+	// checkDigitalInputs();
 
 	while (Firmata.available())
 		Firmata.processInput();
 
-	// TODO - ensure that Stream buffer doesn't go over 60 bytes
+	menu.runMenu(&robot, &controls, &frontLeds, &backLeds, &speaker);
 
+	// TODO - ensure that Stream buffer doesn't go over 60 bytes
+	/*
 	currentMillis = millis();
 	if (currentMillis - previousMillis > samplingInterval) {
 		previousMillis += samplingInterval;
@@ -914,4 +937,5 @@ delay(1000);
 			}
 		}
 	}
+	*/
 }

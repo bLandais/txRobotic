@@ -99,59 +99,61 @@ void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *
 //**************************************************************************************************************************
 
 void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack, Buzzer *const buzzer){
-
-      
-     switch(buttonPanel->analyze()){
+     int boutonChoisi = buttonPanel->analyze();
+     //boolean isChanged = false;
+     if(boutonChoisi != 0) {
+    switch(boutonChoisi){
         
             case 1 : // rightBtn
                 this->tempChoice++;
-                buzzer->playMelody(MENUNEXT);
-                //delay(250);
+             //   buzzer->playMelody(MENUNEXT);
+                delay(250);
                 break;
                 
             case 2: // leftBtn
                 this->tempChoice--;
-                buzzer->playMelody(MENUNEXT);
-               // delay(250);
+             //   buzzer->playMelody(MENUNEXT);
+                delay(250);
                 break;
                 
             case 3 : // downBtn
-                buzzer->playMelody(MENUNEXT);
+                // buzzer->playMelody(MENUNEXT);
                 //delay(250);
                 break;
                 
             case 4 : // upBtn
-                buzzer->playMelody(MENUNEXT);
+                // buzzer->playMelody(MENUNEXT);
                 //delay(250);
                 break;
                 
             case 5 : // validateBtn
-                buzzer->playMelody(VALIDATE);
-                runChoice(robot,buttonPanel,ledFront,ledBack);
+                // buzzer->playMelody(VALIDATE);
+                // runChoice(robot, buttonPanel, ledFront, ledBack);
                 break;
                 
             default:
                 break;
         }
-
-        choice = abs(this->tempChoice)%locations;
-        
-        if (choice == 0){
-			ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
-			ledBack->setColorAll(0, 128, 255);
-        }
-        else if(choice == 1){
-          ledFront->setColorAll(0, 25, 255);//vert:joystick
-		  ledBack->setColorAll(0, 25, 255);
-        }
-		else if (choice == 2) {
-			ledFront->setColorAll(255, 0, 50);//orange:suiveur de ligne
-			ledBack->setColorAll(255, 0, 50);
-		}
-		else if (choice == 3){//rose wi fi
-			ledFront->setColorAll(253, 108, 158);
-			ledBack->setColorAll(253, 108, 158);
-		}
-    
+            choice = abs(this->tempChoice)%locations;        
+            Serial.println(boutonChoisi);
+            delay(100);
+            Serial.println(choice);
+            if (choice == 0) {
+    		  	ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
+    		    ledBack->setColorAll(0, 128, 255);
+            }
+            else if(choice == 1) {
+                ledFront->setColorAll(0, 25, 255);//vert:joystick
+                ledBack->setColorAll(0, 25, 255); 
+            }
+            else if (choice == 2) {
+                ledFront->setColorAll(255, 0, 50);//orange:suiveur de ligne
+    			  ledBack->setColorAll(255, 0, 50);
+    		}
+    		else if (choice == 3) {//rose wi fi
+    			ledFront->setColorAll(253, 108, 158);
+    			ledBack->setColorAll(253, 108, 158);
+      }
+   }
+   return;
 }
-

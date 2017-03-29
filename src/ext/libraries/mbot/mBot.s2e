@@ -10,11 +10,11 @@
 		["-"],
 		
 		// Blocks LED
-		["w", "Régler la LED %m.numLed à R: %n G: %n B: %n", "setColorUnit", 1],
-		["w", "Allumer les LED à R: %n G: %n B: %n", "setColorAll", "10", "10", "10"],
-		["w", "Choisir la couleur de la LED : %m.couleur ","setColor", "blanc"], // Ne fonctionne pas... pas implémentée ?
-		["w", "Mettre expression faciale %m.emotion sur %m.wichMatrix", "expression", "happy", "les 2 yeux"],
-		["w", "Etat led : %m.onOff","ledOnOff","Off"],
+		[" ", "Régler la LED %m.numLed à R: %n G: %n B: %n", "setColorUnit", 1],
+		[" ", "Allumer les LED à R: %n G: %n B: %n", "setColorAll", "10", "10", "10"],
+		[" ", "Choisir la couleur de la LED : %m.couleur ","setColor", "blanc"], // Ne fonctionne pas... pas implémentée ?
+		[" ", "Mettre expression faciale %m.emotion sur %m.wichMatrix", "expression", "happy", "les 2 yeux"],
+		[" ", "Etat led : %m.onOff","ledOnOff","Off"],
 		
 		["-"],
 		

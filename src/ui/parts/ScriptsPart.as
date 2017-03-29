@@ -615,7 +615,7 @@ public class ScriptsPart extends UIPart {
 //		displayModeBtn.x = htmlLoader.width - displayModeBtn.width;
 //		displayModeBtn.y = htmlLoader.height - 200;
 //		inputModeBtn.x = 4;
-//		inputModeBtn.y = sendBt.y;
+//		inputModeBtn.y = sendBt.y;		
 //		messageTextPane.updateScrollbar(null);
 		spriteWatermark.x = w - arduinoWidth - 60;
 		spriteWatermark.y = scriptsFrame.y + 10;
