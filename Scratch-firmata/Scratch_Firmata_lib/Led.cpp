@@ -56,9 +56,31 @@ void Led::setColorUnit(int ledNbr, int newR, int newV, int newB) {
 }
 
 void Led::setColor(int couleur) {
-	this->r = this->tabColor[couleur][0];
+	/*this->r = this->tabColor[couleur][0];
 	this->v = this->tabColor[couleur][1];
-	this->b = this->tabColor[couleur][2];
+	this->b = this->tabColor[couleur][2];*/
+  switch (couleur) {
+       case 0:setColorAll(10, 10, 10); //blanc
+    break;
+       case 1:setColorAll(100,0,0); //rouge
+    break;
+       case 2:setColorAll(0,100,0); //bleu
+    break;
+       case 3:setColorAll(0,0,100); //vert   
+    break;
+       case 4:setColorAll(100,255,255); //turquoise
+    break;
+       case 5:setColorAll(255,0,50); //orange
+    break;
+       case 6:setColorAll(160,160,160); //gris
+    break;
+       case 7:setColorAll(153,0,153); //jaune
+    break;
+       case 8:setColorAll(255,255,51); //magenta
+    break;
+       case 9:setColorAll(120,120,0); //violet
+    break;
+    }
 }
 
 void Led::ledOnOff(bool state) {
