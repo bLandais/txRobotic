@@ -11,10 +11,6 @@
  * Created on 25 octobre 2016, 16:29
 */
 
-#include <Adafruit_NeoPixel.h>
-#include <StandardCplusplus.h>
-#include <vector>
-
 #include "Led.h"
 
 

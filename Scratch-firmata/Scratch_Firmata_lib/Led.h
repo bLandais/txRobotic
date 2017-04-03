@@ -49,11 +49,11 @@ public:
     Led(int, int);
     bool init();
     std::vector<int> getColor();
-	void show(int,int, int,int);
+    void show(int,int, int,int);
     void setColorAll(int =0, int =0, int =0);
-	void setColorUnit(int =5, int =0, int =0, int =0);
-	void setColor(int couleur);
-	void ledOnOff(bool state);
+    void setColorUnit(int =5, int =0, int =0, int =0);
+    void setColor(int couleur);
+    void ledOnOff(bool state);
 };
 
 #endif /* LED_H */

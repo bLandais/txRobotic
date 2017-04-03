@@ -98,7 +98,7 @@ void ControlPanel::controlRead(){
 
 int ControlPanel::analyze(){
     controlRead();
-    Serial.println("Analyse button");
+//    Serial.println("Analyse button");
     if(this->btnList[0].value == LOW){
       return 1;
     }

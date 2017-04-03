@@ -2,9 +2,10 @@
 // 
 // 
 
+#include <Adafruit_NeoPixel.h>
 #include "LedMatrix.h"
 #include "EmotionSprite.h"
-#include "Arduino.h"
+//#include "Arduino.h"
 
 LedMatrix::LedMatrix() {
 
@@ -37,8 +38,8 @@ LedMatrix::LedMatrix(int dataIn, int load, int clock, int maxInUse) {
 */
 }
 
-//procédure qui va afficher un pattern. 
-//Paramètres :
+//procï¿½dure qui va afficher un pattern. 
+//Paramï¿½tres :
 //un tableau de 8 valeurs de LED
 //le nombre de la plaque de LED a controller :
 //1 : Yeux gauche

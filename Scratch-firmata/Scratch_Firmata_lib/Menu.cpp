@@ -106,6 +106,14 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
         
             case 1 : // rightBtn
                 this->tempChoice++;
+                Serial.write(255);
+                Serial.write(85);
+                Serial.write(128);
+                Serial.write(1);
+                Serial.write(1);
+                Serial.write(0);
+                Serial.write(13);
+
              //   buzzer->playMelody(MENUNEXT);
                 delay(250);
                 break;
@@ -135,17 +143,35 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 break;
         }
             choice = abs(this->tempChoice)%locations;        
-            Serial.println(boutonChoisi);
+            /* Serial.println(boutonChoisi);
             delay(100);
-            Serial.println(choice);
-            if (choice == 0) {
+            Serial.println(choice); */
+            switch(choice) {
+              case 0:
+                ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
+                ledBack->setColorAll(0, 128, 255);
+                break;
+              case 1:
+                ledFront->setColorAll(0, 0, 250);//vert:joystick
+                ledBack->setColorAll(0, 0, 250);
+                break;
+              case 2:
+                ledFront->setColorAll(255, 50, 160);//orange:suiveur de ligne
+                ledBack->setColorAll(255, 50, 160);
+                break;
+              case 3:
+                ledFront->setColorAll(255, 60, 60); // rose wifi
+                ledBack->setColorAll(255, 60, 60);
+                break;
+            }
+/*            if (choice == 0) {
     		  	ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
     		    ledBack->setColorAll(0, 128, 255);
             }
             else if(choice == 1) {
                 ledFront->setColorAll(0, 25, 255);//vert:joystick
                 ledBack->setColorAll(0, 25, 255); 
-            }
+            } /*
             else if (choice == 2) {
                 ledFront->setColorAll(255, 0, 50);//orange:suiveur de ligne
     			  ledBack->setColorAll(255, 0, 50);
@@ -153,7 +179,7 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
     		else if (choice == 3) {//rose wi fi
     			ledFront->setColorAll(253, 108, 158);
     			ledBack->setColorAll(253, 108, 158);
-      }
+      } */
    }
    return;
 }
