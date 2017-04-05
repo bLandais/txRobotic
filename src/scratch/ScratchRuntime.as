@@ -116,8 +116,9 @@ package scratch {
 				if(stack.op != "mBot.whenButtonPressed"){
 					return;
 				}
-				if((stack.args[0].argValue == "pressed") == isPressed){
-					if(buttonNumber == 0) {
+				var boutonsArray:Array = ["milieu", "droit", "avant", "gauche", "arriere"];
+				if((stack.args[1].argValue == "pressé") == isPressed){
+					if(boutonsArray[buttonNumber] == stack.args[0].argValue) {
 						if(!BlockInterpreter.Instance.isRunning(stack, target)){
 							interp.toggleThread(stack, target);
 						}

@@ -121,18 +121,40 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 
             case 2: // leftBtn
                 this->tempChoice--;
+                Serial.write(255);
+                Serial.write(85);
+                Serial.write(128);
+                Serial.write(1);
+                Serial.write(1);
+                Serial.write(3);
+                Serial.write(13);
              //   buzzer->playMelody(MENUNEXT);
                 delay(250);
                 break;
                 
             case 3 : // downBtn
+                Serial.write(255);
+                Serial.write(85);
+                Serial.write(128);
+                Serial.write(1);
+                Serial.write(1);
+                Serial.write(4);
+                Serial.write(13);
+                
                 // buzzer->playMelody(MENUNEXT);
-                //delay(250);
+                delay(250);
                 break;
                 
             case 4 : // upBtn
                 // buzzer->playMelody(MENUNEXT);
-                //delay(250);
+                Serial.write(255);
+                Serial.write(85);
+                Serial.write(128);
+                Serial.write(1);
+                Serial.write(1);
+                Serial.write(2);
+                Serial.write(13);
+                delay(250);
                 break;
                 
             case 5 : // validateBtn
