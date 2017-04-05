@@ -90,7 +90,7 @@ void Led::ledOnOff(bool state) {
 	if (state == 1) {
 		int cpt;
 		for (cpt = 0; cpt < this->number; cpt++) {
-			this->strip.setPixelColor(cpt, this->r,this->v,this->b);
+			this->strip.setPixelColor(cpt, 255, 255, 255);
 		}
 		this->strip.show();
 	}
