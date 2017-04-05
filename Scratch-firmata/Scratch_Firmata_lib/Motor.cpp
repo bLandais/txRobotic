@@ -13,7 +13,7 @@
 
 #include <Adafruit_NeoPixel.h>
 
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "Motor.h"
 
 //constructors

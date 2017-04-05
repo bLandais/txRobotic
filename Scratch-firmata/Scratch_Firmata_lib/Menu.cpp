@@ -102,6 +102,7 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
      int boutonChoisi = buttonPanel->analyze();
      //boolean isChanged = false;
      if(boutonChoisi != 0) {
+       
     switch(boutonChoisi){
         
             case 1 : // rightBtn
@@ -111,10 +112,10 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 Serial.write(128);
                 Serial.write(1);
                 Serial.write(1);
-                Serial.write(0);
+                Serial.write(1);
                 Serial.write(13);
 
-             //   buzzer->playMelody(MENUNEXT);
+             // buzzer->playMelody(MENUNEXT);
                 delay(250);
                 break;
                 
@@ -135,6 +136,14 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 break;
                 
             case 5 : // validateBtn
+                Serial.write(255);
+                Serial.write(85);
+                Serial.write(128);
+                Serial.write(1);
+                Serial.write(1);
+                Serial.write(0);
+                Serial.write(13);
+                delay(250);
                 // buzzer->playMelody(VALIDATE);
                 // runChoice(robot, buttonPanel, ledFront, ledBack);
                 break;

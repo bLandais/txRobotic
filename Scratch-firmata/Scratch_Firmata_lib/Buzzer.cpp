@@ -17,7 +17,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #include "Buzzer.h"
-#include "Arduino.h"
+//#include "Arduino.h"
 
 
 Buzzer::Buzzer() {          //Par defaut on fait rien.
@@ -27,7 +27,7 @@ Buzzer::Buzzer(int newPin) {
 	this->pin = newPin;
 	pinMode(this->pin, INPUT); //definition du pin Buzzer
 
-	welcomeSong.push_back(DO);		//définition des melodies préenregistrées
+	welcomeSong.push_back(DO);		//dï¿½finition des melodies prï¿½enregistrï¿½es
 	welcomeSong.push_back(0);
 	welcomeSong.push_back(DO);
 	welcomeSong.push_back(0);
@@ -76,33 +76,33 @@ void Buzzer::playSonDelay(int frequency, int time) {          //Joue un seul Son
 	}
 }
 
-void Buzzer::linkKey(char key) {	//TODO: associer une note à une touche clavier
+void Buzzer::linkKey(char key) {	//TODO: associer une note ï¿½ une touche clavier
 
 }
 
-void Buzzer::playKey(char key) {	//TODO: jouer une note à l'appuis d'une touche associée
+void Buzzer::playKey(char key) {	//TODO: jouer une note ï¿½ l'appuis d'une touche associï¿½e
 
 }
 
 
 //	Fonction playNote	//
 /*
-La gamme par défaut pour le buzzer est la 4 (celle avec le la/A 880Hz)(cf le wiki des octaves)
-==> L'octave 4 en musique = à l'octave 0 dans le code.
+La gamme par dï¿½faut pour le buzzer est la 4 (celle avec le la/A 880Hz)(cf le wiki des octaves)
+==> L'octave 4 en musique = ï¿½ l'octave 0 dans le code.
 
-Pour simplifier la théorie musical toussa toussa on passe à l'octave supérieure en
-multipliant par 2 et à l'ocatve inférieure en divisant par 2.
+Pour simplifier la thï¿½orie musical toussa toussa on passe ï¿½ l'octave supï¿½rieure en
+multipliant par 2 et ï¿½ l'ocatve infï¿½rieure en divisant par 2.
 */
 void Buzzer::playNote(int octave,int note) {   //surcharge pour les demi-tons
 
-	if (octave < 1) {		// on limite le nombre d'octave par sécurité
+	if (octave < 1) {		// on limite le nombre d'octave par sï¿½curitï¿½
 		octave = 1;
 	}
 	else if (octave > 7) {
 		octave = 7;
 	}
 
-	octave = floor(octave) - 4;			//on empèche les puissances à virgules et on ramène l'octave 4 à 0 (cf le gros commentaire au dessus)
+	octave = floor(octave) - 4;			//on empï¿½che les puissances ï¿½ virgules et on ramï¿½ne l'octave 4 ï¿½ 0 (cf le gros commentaire au dessus)
 	int delta = pow(2, octave);
 
 	switch (note) {
@@ -139,7 +139,7 @@ void Buzzer::playNote(int octave,int note) {   //surcharge pour les demi-tons
 
 }
 
-void Buzzer::playMode() {	//TODO: mode piano grace à la fct linkKey
+void Buzzer::playMode() {	//TODO: mode piano grace ï¿½ la fct linkKey
 
 }
 
