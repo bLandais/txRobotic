@@ -27,36 +27,38 @@ package cc.makeblock.interpreter
 		private function parse():void
 		{
 			for(;;){
-				if(buffer.length < 4){
+				if(buffer.length < 4) {
 					return;
 				}
-				if(buffer[0] == 0xFF && buffer[1] == 0x55){
+				if(buffer[0] == 0xFF && buffer[1] == 0x55) {
 					break;
 				}
 				buffer.shift();
 			}
-			if(buffer[2] == 0x0D && buffer[3] == 0x0A){
+			if(buffer[2] == 0x0D && buffer[3] == 0x0A) {
 				buffer.splice(0, 4);
 				if(callback!=RemoteCallMgr.Instance.onPacketRecv)
 				{
 					trace("callback！=RemoteCallMgr.Instance.onPacketRecv")
 					callback();
 				}
-			}else{
+			}else {
 				ba.clear();
 				var index:int = buffer[2];
 				var value:*;
+				var buttonNumber:*;
 				switch(buffer[3]){
 					case 1:
 						if(buffer.length < 7){
 							return;
 						}
 						value = buffer[4];
+						buttonNumber  = buffer[5];
 						buffer.splice(0, 7);
 						break;
 					case 2:
 					case 5:
-						if(buffer.length < 10){
+						if(buffer.length < 10) {
 							return;
 						}
 						ba.writeByte(buffer[4]);
@@ -68,7 +70,7 @@ package cc.makeblock.interpreter
 						buffer.splice(0, 10);
 						break;
 					case 3:
-						if(buffer.length < 8){
+						if(buffer.length < 8) {
 							return;
 						}
 						ba.writeByte(buffer[4]);
@@ -108,11 +110,10 @@ package cc.makeblock.interpreter
 						value = 0;
 						buffer.splice(0, 4);
 				}
-				if(index == 0x80){//button pressed
-					MBlock.app.runtime.mbotButtonPressed.notify(Boolean(value));
-				}else{
-					if(callback!=RemoteCallMgr.Instance.onPacketRecv)
-					{
+				if(index == 0x80) {//button pressed
+					MBlock.app.runtime.mbotButtonPressed.notify(Boolean(value), buttonNumber);
+				} else {
+					if(callback!=RemoteCallMgr.Instance.onPacketRecv) {
 						callback(value);
 						trace("callback！=RemoteCallMgr.Instance.onPacketRecv")
 					}					

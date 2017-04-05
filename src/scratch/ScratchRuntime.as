@@ -21,6 +21,8 @@
 // John Maloney, September 2010
 
 package scratch {
+	import com.hurlant.util.der.Integer;
+	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -88,7 +90,7 @@ package scratch {
 		protected var projectToInstall:ScratchStage;
 		protected var saveAfterInstall:Boolean;
 		
-		public const mbotButtonPressed:Signal = new Signal(Boolean);
+		public const mbotButtonPressed:Signal = new Signal(Boolean, int);
 		public const voiceReceived:Signal = new Signal(Boolean);
 		public const emotionResultReceived:Signal = new Signal(Boolean);
 		public const faceResultReceived:Signal = new Signal(Boolean);
@@ -108,15 +110,17 @@ package scratch {
 			realFaceResultReceived.add(__onRealFaceResultReceived);
 		}
 		
-		private function __onMbotButtonPressed(isPressed:Boolean):void
+		private function __onMbotButtonPressed(isPressed:Boolean, buttonNumber:int):void
 		{
 			allStacksAndOwnersDo(function(stack:Block, target:ScratchObj):void{
 				if(stack.op != "mBot.whenButtonPressed"){
 					return;
 				}
 				if((stack.args[0].argValue == "pressed") == isPressed){
-					if(!BlockInterpreter.Instance.isRunning(stack, target)){
-						interp.toggleThread(stack, target);
+					if(buttonNumber == 0) {
+						if(!BlockInterpreter.Instance.isRunning(stack, target)){
+							interp.toggleThread(stack, target);
+						}
 					}
 				}
 			});

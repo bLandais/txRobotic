@@ -651,11 +651,17 @@ void sysexCallback(byte command, byte argc, byte *argv)
 		switch (argv[0]) {
 			case 1: frontLeds.setColorUnit(argv[1], argv[2], argv[3], argv[4]);
 				break;
-			case 2 : frontLeds.setColorAll(argv[1], argv[2], argv[3]);
+			case 2 : 
+			  frontLeds.setColorAll(argv[1], argv[2], argv[3]);
+				backLeds.setColorAll(argv[1], argv[2], argv[3]);
 				break;
-			case 3 : frontLeds.setColor(argv[1]);
+			case 3 : 
+			  frontLeds.setColor(argv[1]);
+				backLeds.setColor(argv[1]);
 				break;
-			case 4: frontLeds.ledOnOff(argv[1]);
+			case 4: 
+			  frontLeds.ledOnOff(argv[1]);
+				backLeds.ledOnOff(argv[1]);
 				break;
 			default: frontLeds.ledOnOff(0);
 				break;
