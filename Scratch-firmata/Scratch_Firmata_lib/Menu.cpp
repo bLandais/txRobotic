@@ -180,19 +180,19 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
             switch(choice) {
               case 0:
                 ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
-                ledBack->setColorAll(0, 128, 255);
+                // ledBack->setColorAll(0, 128, 255);
                 break;
               case 1:
                 ledFront->setColorAll(0, 0, 250);//vert:joystick
-                ledBack->setColorAll(0, 0, 250);
+                //ledBack->setColorAll(0, 0, 250);
                 break;
               case 2:
                 ledFront->setColorAll(255, 50, 160);//orange:suiveur de ligne
-                ledBack->setColorAll(255, 50, 160);
+                // ledBack->setColorAll(255, 50, 160);
                 break;
               case 3:
                 ledFront->setColorAll(255, 60, 60); // rose wifi
-                ledBack->setColorAll(255, 60, 60);
+                // ledBack->setColorAll(255, 60, 60);
                 break;
             }
 /*            if (choice == 0) {

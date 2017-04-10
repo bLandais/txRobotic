@@ -83,7 +83,7 @@ Sensor sensorAvM = Sensor(39, A11, 130, SensorType::infraR, 0);
 Sensor sensorAvD = Sensor(41, A12, 130, SensorType::infraR, 1);
 
 //------LEDs----------://
-Led backLeds = Led(12, 5);
+Led backLeds = Led(12, 2);
 Led frontLeds = Led(44, 6);
 
 //------buttons-------://
@@ -822,7 +822,7 @@ void setup() {
 	robot.setControls(&controls);
 
 	//------turning bot-------://
-	backLeds.setColorAll(255,255,255);
+	backLeds.setColorAll(255, 255, 255);
 	frontLeds.setColorAll(255, 255, 255);
 
 	//-------Son de bienvenu----://
@@ -876,6 +876,10 @@ void setup() {
 
 
 	pinMode(24, INPUT);
+  pinMode(22, INPUT);
+  pinMode(23, INPUT);
+  pinMode(25, INPUT);
+  pinMode(26, INPUT);
 }
 
 
@@ -924,7 +928,7 @@ delay(1000);
 	menu.runMenu(&robot, &controls, &frontLeds, &backLeds, &speaker);
 
 	// TODO - ensure that Stream buffer doesn't go over 60 bytes
-	/*
+	
 	currentMillis = millis();
 	if (currentMillis - previousMillis > samplingInterval) {
 		previousMillis += samplingInterval;
@@ -943,5 +947,5 @@ delay(1000);
 			}
 		}
 	}
-	*/
+	
 }

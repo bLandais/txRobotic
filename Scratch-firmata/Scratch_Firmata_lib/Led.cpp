@@ -40,7 +40,6 @@ void Led::show(int ledNbr, int newR, int newV, int newB) {
 }
 
 void Led::setColorAll(int newR, int newV, int newB){
-    delay(100);
     this->color = {newR, newV, newB};
 
     int cpt;
@@ -48,6 +47,7 @@ void Led::setColorAll(int newR, int newV, int newB){
       this->strip.setPixelColor(cpt,newR, newV, newB);
     }
     this->strip.show();
+    delay(100);
 }
 
 void Led::setColorUnit(int ledNbr, int newR, int newV, int newB) {
@@ -64,24 +64,24 @@ void Led::setColor(int couleur) {
   switch (couleur) {
        case 0:setColorAll(10, 10, 10); //blanc
     break;
-       case 1:setColorAll(100,0,0); //rouge
+       case 1:setColorAll(10,0,0); //rouge
     break;
        case 2:setColorAll(0,100,0); //bleu
     break;
        case 3:setColorAll(0,0,100); //vert   
     break;
-       case 4:setColorAll(100,255,255); //turquoise
+       case 4:setColorAll(10,255,255); //turquoise
     break;
-       case 5:setColorAll(255,0,50); //orange
-    break;
-       case 6:setColorAll(160,160,160); //gris
+       case 6:setColorAll(255,80,130); //gris
     break;
        case 7:setColorAll(153,0,153); //jaune
     break;
        case 8:setColorAll(255,255,51); //magenta
     break;
-       case 9:setColorAll(120,120,0); //violet
+       case 9:setColorAll(255,130,80); //violet
     break;
+    default:
+       break;
     }
 }
 
