@@ -5,19 +5,19 @@
 	"javascriptURL":"js/mbot.js",
 	"isMakeBlockBoard":true,
 	"blockSpecs": [
-		["h","txRobotic Program","runArduino",{"src":"mbot","inc":"#include <MeMCore.h>\n","def":"","setup":"","loop":""}],
-		
+		["h","txRobotic Program", "runArduino", {"src":"mbot","inc":"#include <MeMCore.h>\n","def":"","setup":"","loop":""}],
+
 		["-"],
-		
+
 		// Blocks LED
 		[" ", "Régler la LED %m.numLed à R: %n G: %n B: %n", "setColorUnit", 1],
 		[" ", "Allumer les LED à R: %n G: %n B: %n", "setColorAll", "10", "10", "10"],
 		[" ", "Choisir la couleur de la LED : %m.couleur ","setColor", "blanc"], // Ne fonctionne pas... pas implémentée ?
 		[" ", "Mettre expression faciale %m.emotion sur %m.wichMatrix", "expression", "happy", "les 2 yeux"],
 		[" ", "Etat led : %m.onOff","ledOnOff","Off"],
-		
+
 		["-"],
-		
+
 		// Buzzer
 		[" ", "Rythme du buzzer : %n s", "setDelayRythme","1"],
 		[" ", "Buzzer : %m.onOff","buzzerOnOff","Off"],
@@ -25,62 +25,15 @@
 		[" ", "Attente buzzer : %n s","setDelayAttente","1"],
 		[" ", "Octave : %m.octave note : %m.note","playNote","4","do"],
 		[" ", "Frequency : %n Hz time : %n", "playSonDelay", "500", "1"],
-		
-		["w", "%m.direction at speed %d.motorvalue","runBot", "run forward", 0,
-		{"encode":"{d0}{s1}","setup":"","inc":"","def":"","work":"move({0},{1});\n","loop":""}],
-		
-		["w", "set motor%d.motorPort speed %d.motorvalue","runMotor", "M1", 0,
-		{"encode":"{d0}{s1}","setup":"","inc":"","def":"","work":"motor_{0}.run(({0})==M1?-({1}):({1}));\n","loop":""}],
-		
-		["w", "set servo %d.servoPort %d.slot angle %d.servovalue","runServo", "Port1","Slot1", 90,
-		{"encode":"{d0}{d1}{d2}","setup":"servo_{0}_{1}.attach(port_{0}.pin{1}());\n","inc":"","def":"Servo servo_{0}_{1};\nMePort port_{0}({0});\n","work":"servo_{0}_{1}.write({2});\n","loop":""}],
-		
-		["w", "set led on board %d.index red%d.value green%d.value blue%d.value","runLed", "all",0,0,0,
-		{"encode":"{d0}{d1}{d2}{d3}","setup":"","inc":"","def":"MeRGBLed rgbled_7(7, 7==7?2:4);\n","work":"rgbled_7.setColor({0},{1},{2},{3});\nrgbled_7.show();\n","loop":""}],
-		
-		["w", "set led %d.yellowPorts %d.index0 red%d.value green%d.value blue%d.value","runLedExternal", "Port1","all",0,0,0,
-		{"encode":"{d0}{d1}{d2}{d3}{d4}","setup":"","inc":"","def":"MeRGBLed rgbled_{0}({0}, {0}==7?2:4);\n","work":"rgbled_{0}.setColor({1},{2},{3},{4});\nrgbled_{0}.show();\n","loop":""}],
-		
-		["w", "set led strip %d.normalPort %d.slot %d.index2 red%d.value green%d.value blue%d.value","runLedStrip", "Port1","Slot2","all",0,0,0,
-		{"encode":"{d0}{d1}{d2}{d3}{d4}","setup":"","inc":"","def":"MeRGBLed rgbled_{0}_{1}({0}, {1}, 32);\n","work":"rgbled_{0}_{1}.setColor({2},{3},{4},{5});\nrgbled_{0}_{1}.show();\n","loop":""}],
-		
-		["w", "play tone on note %d.note beat %d.beats","runBuzzer", "C4", "Half",
-		{"encode":"{s0}","setup":"","inc":"","def":"MeBuzzer buzzer;\n","work":"buzzer.tone({0}, {1});\ndelay(20);\n","loop":""}],
-		
-		/*["w", "stop tone","stopBuzzer",0,
-		{"encode":"{s0}","setup":"","inc":"","def":"MeBuzzer buzzer;\n","work":"buzzer.noTone();\n","loop":""}],*/
-		
-		["w", "show face %d.normalPort number:%n","showNumber", "Port1", 0,
-		{"encode":"{s0}","setup":"ledMtx_{0}.setColorIndex(1);\nledMtx_{0}.setBrightness(6);\n","inc":"","def":"MeLEDMatrix ledMtx_{0}({0});\n","work":"ledMtx_{0}.showNum({1},3);\n","loop":""}],
-	
-		["w", "show face %d.normalPort x:%n y:%n characters:%s","showCharacters", "Port1", 0,0,"Hi",
-		{"encode":"{s0}","setup":"ledMtx_{0}.setColorIndex(1);\nledMtx_{0}.setBrightness(6);\n","inc":"","def":"MeLEDMatrix ledMtx_{0}({0});\n","work":"ledMtx_{0}.drawStr({1},{2}+7,{3});\n","loop":""}],
-		
-		["w", "show time %d.normalPort hour:%n %m.points min:%n","showTime", "Port1", 10,":",20,
-		{"encode":"{s0}","setup":"ledMtx_{0}.setColorIndex(1);\nledMtx_{0}.setBrightness(6);\n","inc":"","def":"MeLEDMatrix ledMtx_{0}({0});\n","work":"ledMtx_{0}.showClock({1},{3},strcmp({2},\":\")==0);\n","loop":""}],
-		
-		["w", "show drawing %d.normalPort x:%n y:%n draw:%m.drawFace","showDraw", "Port1", 0,0,"        ",
-		{"encode":"{s0}","setup":"ledMtx_{0}.setColorIndex(1);\nledMtx_{0}.setBrightness(6);\n","inc":"","def":"MeLEDMatrix ledMtx_{0}({0});\nunsigned char drawBuffer[16];\nunsigned char *drawTemp;\n","work":"drawTemp = new unsigned char[16]{{3}};\nmemcpy(drawBuffer,drawTemp,16);\nfree(drawTemp);\nledMtx_{0}.drawBitmap({1},{2},16,drawBuffer);\n","loop":""}],
-		
+
+		// Motor
+		[" ", "Le moteur %m.quelMoteur %m.direction avec une vitesse de %n %", "motor", "gauche", "avance", 70],
+		[" ", "Stop %m.quelMoteur", "stop", "gauche"],
+
 		["-"],
 		
 		["w", "set 7-segments display%d.bluePorts number %n","runSevseg", "Port1", 100,
 		{"encode":"{d0}{f1}","setup":"","inc":"","def":"Me7SegmentDisplay seg7_{0}({0});\n","work":"seg7_{0}.display((float){1});\n","loop":""}],
-		
-		
-		
-		["w", "set light sensor %d.blackPorts led as %d.switch","runLightSensor", "Port3", "On",
-		{"encode":"{d0}{d1}","setup":"","inc":"","def":"MeLightSensor lightsensor_{0}({0});\n","work":"lightsensor_{0}.dWrite1({1});\n","loop":""}],
-		
-		["w", "set camera shutter %d.bluePorts as %d.shutter","runShutter","Port1", "Press",
-		{"encode":"{d0}{d1}","setup":"","inc":"","def":"MeShutter shutter_{0}({0});\n","work":"shutter_{0}.setState({1});\n","loop":""}],
-
-		["w", "set mini fan %d.fanPorts blow %d.fan","runFan","Port1", "clockwise",
-		{"encode":"{d0}{d1}","setup":"","inc":"","def":"MePort dc130({0});\n--separator--void dc130_run( uint8_t port, int8_t direction) \n{\n  pinMode(dc130.pin1(),OUTPUT);\n  pinMode(dc130.pin2(),OUTPUT);\n  if( direction > 0)\n  {\n    digitalWrite(dc130.pin2(),0);\n    digitalWrite(dc130.pin1(),1);\n  }\n  else if( direction < 0)\n  {\n    digitalWrite(dc130.pin1(),0);\n    digitalWrite(dc130.pin2(),1);\n  }\n  else\n  {\n    digitalWrite(dc130.pin1(),0);\n    digitalWrite(dc130.pin2(),0);\n  }\n}\n","work":"dc130_run({0},{1});\n","loop":""}],
-		
-		["-"],
-		["R", "light sensor %d.laport","getLightSensor","light sensor on board",
-		{"encode":"{d0}","setup":"","inc":"","def":"MeLightSensor lightsensor_{0}({0});\n","work":"lightsensor_{0}.read()","loop":""}],
 		
 		["h", "Quand le bouton %m.bouton est %m.etatBouton","whenButtonPressed","avant","pressé"],
 
@@ -149,7 +102,7 @@
 	],
 	"menus": {
 		"numLed": ["1","2","3","4","5","6"],
-		"couleur": ["blanc", "rouge", "vert", "bleu", "turquoise", "orange", "gris", "jaune", "magenta", "violet"],
+		"couleur": ["blanc", "rouge", "vert", "bleu", "turquoise", "gris", "jaune", "magenta", "violet"],
 		"emotion": ["happy", "inLove", "crazyEye", "deadEye", "snowEye", "starEye"],
         "wichMatrix": ["l'oeil gauche","l'oeil droit","les 2 yeux"],
         "onOff": ["On", "Off"],
@@ -159,6 +112,10 @@
 		"note": ["do","do#","re","re#","mi","fa","fa#","sol","sol#","la","la#","si"],
 		"bouton": ["avant", "droit", "arriere", "gauche", "milieu"],
 		"etatBouton": ["pressé", "relaché"],
+		
+		"quelMoteur": ["gauche", "droit", "gauche et droit"],
+        "direction": ["avance", "recule"],
+        "mvt": ["avancer", "reculer", "tourner", "arrêt"],
 		
 		"yellowPorts":["Port1","Port2","Port3","Port4"],
     	"bluePorts":["Port1","Port2","Port3","Port4"],
@@ -180,7 +137,7 @@
 		"port":["Port1","Port2","Port3","Port4"],
 		"lport":["led on board"],
 		"laport":["light sensor on board","Port3","Port4"],
-		"direction":["run forward","run backward","turn right","turn left"],
+		// "direction":["run forward","run backward","turn right","turn left"],
 		"points":[":",""],
 		// TODO : Nettoyer "note":["C2","D2","E2","F2","G2","A2","B2","C3","D3","E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5","D5","E5","F5","G5","A5","B5","C6","D6","E6","F6","G6","A6","B6","C7","D7","E7","F7","G7","A7","B7","C8","D8"],
 		"beats":["Half","Quarter","Eighth","Whole","Double"],

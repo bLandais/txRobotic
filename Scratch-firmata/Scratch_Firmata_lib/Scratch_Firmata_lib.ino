@@ -74,7 +74,7 @@ int locations = 4;
 
 //------Motors--------://
 Motor motor_l = Motor(9, 8, 10);
-Motor motor_r = Motor(6, 7, 5);
+Motor motor_r = Motor(7, 6, 5);
 
 
 //------Sensors-------://

@@ -406,6 +406,45 @@
 	ext.stopBuzzer = function(){
 		runPackage(34,short2array(0));
 	};
+	
+	// ==================== MOTOR FUNCTIONS ==============================
+	
+	function motor(moteur, direction, pwmMot){
+    	device.send([START_SYSEX, MOTOR,1,moteur, direction, pwmMot, END_SYSEX]);
+    }
+
+	ext.motor = function(quelMoteur, direction, pwmMot){
+            
+        var threshold = 100;
+        var moteur = 3;
+        var dir = 1;
+
+        if (quelMoteur == 'gauche') moteur = 1;
+        else if (quelMoteur == 'droit') moteur = 2;
+        else if (quelMoteur == 'gauche et droit') moteur = 3;
+
+        if (direction == 'avance') dir = 0;
+        else if (direction == 'recule') dir = 1;
+
+        if (pwmMot > threshold) pwmMot = 100;
+		if (pwmMot < 0) pwmMot = 0;
+
+    	motor(moteur, dir, pwmMot); 
+	}	
+	
+	function stop(moteur) {
+        device.send([START_SYSEX, MOTOR, 2, moteur, END_SYSEX]);
+	}
+
+    ext.stop = function(quelMoteur) {
+    	var moteur = 3;
+        if (quelMoteur == 'gauche') moteur = 1;
+        else if (quelMoteur == 'droit') moteur = 2;
+        else if (quelMoteur == 'gauche et droit') moteur = 3;
+
+        stop(moteur); // 
+    }
+	
 	ext.runSevseg = function(port,display){
 		if(typeof port=="string"){
 			port = ports[port];
