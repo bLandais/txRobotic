@@ -26,7 +26,7 @@ bool Led::init(){
 
     this->strip = Adafruit_NeoPixel(this->number, this->pin, NEO_GRB + NEO_KHZ800);
     this->strip.begin();// Initialise toute les led à 'off'
-    this->strip.show(); //display   
+    setColorAll(255, 255, 255);
 }
 
 std::vector<int> Led::getColor(){
@@ -45,9 +45,9 @@ void Led::setColorAll(int newR, int newV, int newB){
     int cpt;
     for(cpt = 0; cpt < this->number; cpt++){
       this->strip.setPixelColor(cpt,newR, newV, newB);
-    }
-    if(this->pin == 44) {
-      this->strip.setPixelColor(0,0,0,0);
+      if(this->pin == 44) {
+        this->strip.setPixelColor(0,0,0,0); 
+      }
     }
     this->strip.show();
     delay(100);

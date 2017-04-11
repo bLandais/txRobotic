@@ -801,9 +801,6 @@ void systemResetCallback()
 
 
 void setup() {
-
-	
-
 	//------motor init-------://
 	motor_l.init();
 	motor_r.init();
@@ -823,16 +820,14 @@ void setup() {
   robot.addMotor(&motor_r);
 
 	robot.addLed(&frontLeds);
-	robot.addLed(&backLeds);
+  robot.addLed(&backLeds);
 	robot.setControls(&controls);
 
 	//------turning bot-------://
-	backLeds.setColorAll(255, 255, 255);
-	frontLeds.setColorAll(255, 255, 255);
-
+/*	backLeds.setColorAll(255, 255, 255);
+	frontLeds.setColorAll(255, 255, 255); */
 	//-------Son de bienvenu----://
 	//speaker_main.PlayMelody(WELCOMSONG);
-
 
 	Firmata.setFirmwareVersion(FIRMATA_MAJOR_VERSION, FIRMATA_MINOR_VERSION);
 
