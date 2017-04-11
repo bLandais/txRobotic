@@ -652,19 +652,21 @@ void sysexCallback(byte command, byte argc, byte *argv)
 			case 1: frontLeds.setColorUnit(argv[1], argv[2], argv[3], argv[4]);
 				break;
 			case 2 : 
+        backLeds.setColorAll(argv[1], argv[2], argv[3]);
 			  frontLeds.setColorAll(argv[1], argv[2], argv[3]);
-				backLeds.setColorAll(argv[1], argv[2], argv[3]);
 				break;
-			case 3 : 
-			  frontLeds.setColor(argv[1]);
-				backLeds.setColor(argv[1]);
+			case 3 :     
+        backLeds.setColor(argv[1]);
+        frontLeds.setColor(argv[1]);
 				break;
 			case 4: 
+        backLeds.ledOnOff(argv[1]); 
 			  frontLeds.ledOnOff(argv[1]);
-				backLeds.ledOnOff(argv[1]);
 				break;
-			default: frontLeds.ledOnOff(0);
-				break;
+			default: 
+			  backLeds.ledOnOff(0);
+			  frontLeds.ledOnOff(0);
+        break;
 		}
 
 		break;
@@ -831,13 +833,13 @@ void setup() {
 
 	Firmata.setFirmwareVersion(FIRMATA_MAJOR_VERSION, FIRMATA_MINOR_VERSION);
 
-	Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
-	Firmata.attach(DIGITAL_MESSAGE, digitalWriteCallback);
-	Firmata.attach(REPORT_ANALOG, reportAnalogCallback);
-	Firmata.attach(REPORT_DIGITAL, reportDigitalCallback);
+	// Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
+	// Firmata.attach(DIGITAL_MESSAGE, digitalWriteCallback);
+	// Firmata.attach(REPORT_ANALOG, reportAnalogCallback);
+	// Firmata.attach(REPORT_DIGITAL, reportDigitalCallback);
 	// Firmata.attach(SET_PIN_MODE, setPinModeCallback);
 	Firmata.attach(START_SYSEX, sysexCallback);
-	Firmata.attach(SYSTEM_RESET, systemResetCallback);
+	// Firmata.attach(SYSTEM_RESET, systemResetCallback);
 
 	// to use a port other than Serial, such as Serial1 on an Arduino Leonardo or Mega,
 	// Call begin(baud) on the alternate serial port and pass it to Firmata to begin like this:

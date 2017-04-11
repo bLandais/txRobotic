@@ -19,11 +19,11 @@ EmotionSprite::EmotionSprite(String name, int pattern_number, int pattern_delay,
 	this->tabPattern = tabPattern;
 }
 
-//Procédure qui permettera d'initialier les tableaux contenant les indices des patterns
-//Paramètres : 
+//Procï¿½dure qui permettera d'initialier les tableaux contenant les indices des patterns
+//Paramï¿½tres : 
 //indexOfEmotion : tableau contenant les indices 
 //sizeOfArray : taille du tableau 
-//array : le tableau qui sera ensuite associé au tableau d'emotion 
+//array : le tableau qui sera ensuite associï¿½ au tableau d'emotion 
 void EmotionSprite::SetEmotion_array_eye(int indexOfEmotion[], int sizeOfArray){
 	for (int i = 0; i < 23; i++) {
 		if (i < sizeOfArray) this->emotion_array_eye[i] = indexOfEmotion[i];
@@ -45,10 +45,10 @@ void EmotionSprite::SetPattern_delay(int pattern_delay) {
 
 
 //Fonction qui va afficher le pattern
-//Paramètres : 
+//Paramï¿½tres : 
 //emotionInAction : l'emotion sur lequel on est 
-//patternCounter : pour savoir à quelle valeur le compteur de l'émotion on est 
-//Si le patternCounter est égale à la taille du tableau, alors nous sommes à la fin de l'émotion et la fonction renvera -1, sinon elle envoie emotionInAction.pattern_number-1  
+//patternCounter : pour savoir ï¿½ quelle valeur le compteur de l'ï¿½motion on est 
+//Si le patternCounter est ï¿½gale ï¿½ la taille du tableau, alors nous sommes ï¿½ la fin de l'ï¿½motion et la fonction renvera -1, sinon elle envoie emotionInAction.pattern_number-1  
 int EmotionSprite::printPattern(int patternCounter, int wichMatrix) {
 
 	std::vector<int> arrayEye;
@@ -75,6 +75,7 @@ int EmotionSprite::printPattern(int patternCounter, int wichMatrix) {
 	if (patternCounter >= testEnd) {
 		testEnd = -1;
 	}
+
 	return testEnd;
 }
 
