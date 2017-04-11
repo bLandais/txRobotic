@@ -813,11 +813,14 @@ void setup() {
 	backLeds.init();
 
 	//------Add component to robot-------://
-    controls.addButton(btn_right);
-    controls.addButton(btn_left);
-    controls.addButton(btn_down);
-    controls.addButton(btn_up);
-    controls.addButton(btn_valid);
+  controls.addButton(btn_right);
+  controls.addButton(btn_left);
+  controls.addButton(btn_down);
+  controls.addButton(btn_up);
+  controls.addButton(btn_valid);
+
+  robot.addMotor(&motor_l);
+  robot.addMotor(&motor_r);
 
 	robot.addLed(&frontLeds);
 	robot.addLed(&backLeds);

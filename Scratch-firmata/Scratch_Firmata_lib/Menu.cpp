@@ -64,32 +64,24 @@ void Menu::setLocations(int locationsNbr){
 //*************************************************************************************************************************
 
 void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *const ledFront , Led *const ledBack){
-        
-        Serial.print("choice = ");
-            Serial.println(this->choice);
-        switch(this->choice){
-            
-            case 0 : // bleu:evitement d'obstacle
-                robot->dodger(buttonPanel, ledFront, ledBack);
-                break;
-                
-            case 1 : // vert:joystick
-                robot->joystick(buttonPanel, ledFront, ledBack);
-                break;
-                
-            case 2: //	orange:suivi de ligne
-				robot->lineFollower(buttonPanel, ledFront, ledBack);
-                break;
-                
-            case 3 : // wi fi joystick
-				robot->useWifi(buttonPanel, ledFront, ledBack);
-                break;
-                
-            default:
-                break;
-        }
-    this->choice = 0;
-    this->tempChoice = 0;
+  switch(this->choice){
+    case 0 : // bleu:evitement d'obstacle
+      robot->dodger(buttonPanel, ledFront, ledBack);
+      break;
+    case 1 : // vert:joystick
+      robot->joystick(buttonPanel, ledFront, ledBack);
+      break;          
+    case 2: //	orange:suivi de ligne
+  	  robot->lineFollower(buttonPanel, ledFront, ledBack);
+      break;          
+    case 3 : // wi fi joystick
+  		robot->useWifi(buttonPanel, ledFront, ledBack);
+      break;          
+    default:
+      break;
+  }
+  this->choice = 0;
+  this->tempChoice = 0;
 }
 
 //**************************************************************************************************************************
@@ -167,7 +159,7 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 Serial.write(13);
                 delay(250);
                 // buzzer->playMelody(VALIDATE);
-                // runChoice(robot, buttonPanel, ledFront, ledBack);
+                runChoice(robot, buttonPanel, ledFront, ledBack);
                 break;
                 
             default:
@@ -180,19 +172,19 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
             switch(choice) {
               case 0:
                 ledFront->setColorAll(0, 128, 255);//bleu:evitement d'obstacle
-                // ledBack->setColorAll(0, 128, 255);
+                ledBack->setColorAll(0, 128, 255);
                 break;
               case 1:
                 ledFront->setColorAll(0, 0, 250);//vert:joystick
-                //ledBack->setColorAll(0, 0, 250);
+                ledBack->setColorAll(0, 0, 250);
                 break;
               case 2:
                 ledFront->setColorAll(255, 50, 160);//orange:suiveur de ligne
-                // ledBack->setColorAll(255, 50, 160);
+                ledBack->setColorAll(255, 50, 160);
                 break;
               case 3:
                 ledFront->setColorAll(255, 60, 60); // rose wifi
-                // ledBack->setColorAll(255, 60, 60);
+                ledBack->setColorAll(255, 60, 60);
                 break;
             }
 /*            if (choice == 0) {
