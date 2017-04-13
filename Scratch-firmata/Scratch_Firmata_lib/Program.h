@@ -26,9 +26,10 @@
 class Program {
 
 public:
-  static Program instance;
-  
-   //init compteur :
+
+static Program * instance;
+ 
+//   Program test;
   int encoder1Pos = 0;
   int encoder2Pos = 0;
 
@@ -96,8 +97,9 @@ private:
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);
 	int pourcentToDigital(int pourcentage);
   static void interruptCount1();
-  void docount_1();
+  void docount_1(int*);
   void docount_2();
+ 
 };
 
 #endif /* PROGRAM_H */

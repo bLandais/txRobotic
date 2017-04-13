@@ -78,6 +78,7 @@ void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *
   		robot->useWifi(buttonPanel, ledFront, ledBack);
       break;
     case 4 :
+  
       robot->avancer(buttonPanel, ledFront, ledBack);
     break;          
     default:

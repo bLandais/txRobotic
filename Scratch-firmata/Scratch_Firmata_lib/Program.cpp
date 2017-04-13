@@ -18,17 +18,11 @@
 #include "Program.h"
 #include "Led.h"
 
-static Program* instance = NULL;
+
 static float circonference;			// Circonférence de la roue
  
-void Program::init() {
-    // Interruption de l'encodeur A en sortie 5 (pin 18)
-    instance = *this;
-    attachInterrupt(5, interruptCount1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
-   // Interruption de l'encodeur B en sortie 4 (pin 19)
-  //  attachInterrupt(4, docount_2, RISING);   // increase counter of Motor 2 when speed sensor pin goes High
 
-}
+
 //************************************************************************
 //	Constructor
 //************************************************************************
@@ -629,6 +623,7 @@ double Program::calculateTicks(int target_mm) {
 }
 
 void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
+  init();
   int target_mm=1000;
   ledFront->setColorAll(200, 0, 0);
   ledBack->setColorAll(200, 0, 0);
@@ -645,7 +640,7 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
     }
   motorList[0]->setSpeed(200);
   motorList[1]->setSpeed(200);   
-  Serial.println(encoder1Pos);
+ 
   //  asservissement_vitesse_Motors(125, false);
 	//	Serial.print(motorList[0]->getEncoderPos());
 		//Serial.print(" , ");
@@ -820,19 +815,32 @@ int Program::pourcentToDigital(int pourcentage)  //Convertit un pourcentage posi
 //-------------------------------------------------Compteurs-------------------------------------------------------------------
 // Interruption appelée à tous les changements d'état
 
+ // static Program* instance = NULL;
+  
+void Program::init() {
+    // Interruption de l'encodeur A en sortie 5 (pin 18)
+      instance = this;
+
+    attachInterrupt(5, interruptCount1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
+   // Interruption de l'encodeur B en sortie 4 (pin 19)
+  //  attachInterrupt(4, docount_2, RISING);   // increase counter of Motor 2 when speed sensor pin goes High
+}
+
 static void interruptCount1() {
-  if(instance != NULL) {
-    Program::instance.docount_1();
+  if(Program::instance != NULL) {
+   // Serial.println(encoder1Pos);
+    Program::instance->docount_1(&Program::instance->encoder1Pos);
   }
 }
 
-void docount_1()  // counts from the speed sensor of Motor 1 (left)
+
+void docount_1(int* encoder1Pos)  // counts from the speed sensor of Motor 1 (left)
 {
   if (digitalRead(9) == HIGH && digitalRead(8) == LOW) {
-    Program::instance.encoder1Pos-- ;  // decrease -1 the counter value
+   encoder1Pos-- ;  // decrease -1 the counter value
   }
   else if (digitalRead(9) == LOW && digitalRead(8) == HIGH) {
-    Program::instance.encoder1Pos++ ;  // increase +1 the counter value
+   encoder1Pos++ ;  // increase +1 the counter value
   }
   // encoder1Pos++ ; 
 }
@@ -841,9 +849,9 @@ void docount_1()  // counts from the speed sensor of Motor 1 (left)
 void docount_2()  // counts from the speed sensor of Motor 2 (right)
 {
   if (digitalRead(7) == HIGH && digitalRead(6) == LOW) {
-    Program::instance.encoder2Pos++ ;
+    Program::instance->encoder2Pos++ ;
   }
   else if (digitalRead(7) == LOW && digitalRead(6)== HIGH) {
-    Program::instance.encoder2Pos-- ;
+    Program::instance->encoder2Pos-- ;
   }
 }
