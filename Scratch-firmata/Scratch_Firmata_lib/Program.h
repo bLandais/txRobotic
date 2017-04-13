@@ -25,11 +25,18 @@
 
 class Program {
 
+public:
+  static Program instance;
+  
+   //init compteur :
+  int encoder1Pos = 0;
+  int encoder2Pos = 0;
+
 private:
-    std::vector<Motor*> motorList;		//used to store the motor list
-    std::vector<Sensor*> sensorList;	//used to store the sensor list
-    std::vector<Led*> ledList;			//used to store the led strips list
-    ControlPanel* controls;				//used to store the control panel
+  std::vector<Motor*> motorList;		//used to store the motor list
+  std::vector<Sensor*> sensorList;	//used to store the sensor list
+  std::vector<Led*> ledList;			//used to store the led strips list
+  ControlPanel* controls;				//used to store the control panel
 	Data* data;							//used to store the data
 	Buzzer* speaker;					//used to store the buzzer
 
@@ -41,13 +48,7 @@ private:
 	static const int maxSpeed = 15;
 	static const int maxPower = 100;
 	float desiredSpeed; // en rotation par sec
-  
-
-   //init compteur :
-  int encoder1Pos = 0;
-  int encoder2Pos = 0;
-    
-
+ 
   public:
     
 	//Constructors
@@ -68,7 +69,7 @@ private:
     void addMotor(Motor *const);		//add a motor object in the motor vector
     void addSensor(Sensor *const);		//add a sensor object in the sensor vector
     void addLed(Led *const);			//add a led strip object in the sensor vector
-    void init(Program *const);
+    void init();
     //for demo
     void dodger(ControlPanel *const, Led *const, Led *const);			//obstacle doger program
     void lineFollower(ControlPanel *const, Led *const, Led  *const);	//lie follower program
@@ -94,8 +95,9 @@ private:
 	void rotation(int angle, int sens);
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);
 	int pourcentToDigital(int pourcentage);
-  static void docount_1();
-  static void docount_2();
+  static void interruptCount1();
+  void docount_1();
+  void docount_2();
 };
 
 #endif /* PROGRAM_H */

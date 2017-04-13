@@ -18,12 +18,13 @@
 #include "Program.h"
 #include "Led.h"
 
-
-  static float circonference;			// Circonférence de la roue
+static Program* instance = NULL;
+static float circonference;			// Circonférence de la roue
  
-void Program::init(Program *const robot) {
+void Program::init() {
     // Interruption de l'encodeur A en sortie 5 (pin 18)
-  attachInterrupt(5,docount_1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
+    instance = *this;
+    attachInterrupt(5, interruptCount1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
    // Interruption de l'encodeur B en sortie 4 (pin 19)
   //  attachInterrupt(4, docount_2, RISING);   // increase counter of Motor 2 when speed sensor pin goes High
 
@@ -819,24 +820,30 @@ int Program::pourcentToDigital(int pourcentage)  //Convertit un pourcentage posi
 //-------------------------------------------------Compteurs-------------------------------------------------------------------
 // Interruption appelée à tous les changements d'état
 
-static void Program::docount_1()  // counts from the speed sensor of Motor 1 (left)
+static void interruptCount1() {
+  if(instance != NULL) {
+    Program::instance.docount_1();
+  }
+}
+
+void docount_1()  // counts from the speed sensor of Motor 1 (left)
 {
   if (digitalRead(9) == HIGH && digitalRead(8) == LOW) {
-    encoder1Pos-- ;  // decrease -1 the counter value
+    Program::instance.encoder1Pos-- ;  // decrease -1 the counter value
   }
   else if (digitalRead(9) == LOW && digitalRead(8) == HIGH) {
-    encoder1Pos++ ;  // increase +1 the counter value
+    Program::instance.encoder1Pos++ ;  // increase +1 the counter value
   }
   // encoder1Pos++ ; 
 }
 
 
-static void Program::docount_2()  // counts from the speed sensor of Motor 2 (right)
+void docount_2()  // counts from the speed sensor of Motor 2 (right)
 {
   if (digitalRead(7) == HIGH && digitalRead(6) == LOW) {
-    encoder2Pos++ ;
+    Program::instance.encoder2Pos++ ;
   }
   else if (digitalRead(7) == LOW && digitalRead(6)== HIGH) {
-    encoder2Pos-- ;
+    Program::instance.encoder2Pos-- ;
   }
 }
