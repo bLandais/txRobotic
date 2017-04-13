@@ -76,7 +76,10 @@ void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *
       break;          
     case 3 : // wi fi joystick
   		robot->useWifi(buttonPanel, ledFront, ledBack);
-      break;          
+      break;
+    case 4 :
+      robot->avancer(buttonPanel, ledFront, ledBack);
+    break;          
     default:
       break;
   }
@@ -185,6 +188,10 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
               case 3:
                 ledFront->setColorAll(255, 60, 60); // rose wifi
                 ledBack->setColorAll(255, 60, 60);
+                break;
+              case 4 :
+                ledFront->setColorAll(200, 0, 0); // rouge ligne droite
+                ledBack->setColorAll(200, 0, 0);
                 break;
             }
 /*            if (choice == 0) {

@@ -55,6 +55,13 @@ int Motor::getEncoderPos() {
   return encoderPos;
 }
 
+int Motor::getPinInput1(){
+  return this->pinInput1;
+}
+
+int Motor::getPinInput2(){
+  return this->pinInput2;
+}
 
 //setters
 
@@ -102,7 +109,6 @@ void Motor::setEncoderPos(int newEncoderPos)
 bool Motor::init() {
 	// initialize serial communication at 9600 bits per second:
 	//Serial.begin(9600);
-
 	pinMode(this->en, OUTPUT);   // Sorties commande  moteur 1
 	pinMode(this->pinInput1, OUTPUT);
 	pinMode(this->pinInput2, OUTPUT);

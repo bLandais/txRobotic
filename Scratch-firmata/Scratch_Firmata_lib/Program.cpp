@@ -19,8 +19,15 @@
 #include "Led.h"
 
 
-static float circonference;			// Circonférence de la roue
+  static float circonference;			// Circonférence de la roue
+ 
+void Program::init(Program *const robot) {
+    // Interruption de l'encodeur A en sortie 5 (pin 18)
+  attachInterrupt(5,docount_1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
+   // Interruption de l'encodeur B en sortie 4 (pin 19)
+  //  attachInterrupt(4, docount_2, RISING);   // increase counter of Motor 2 when speed sensor pin goes High
 
+}
 //************************************************************************
 //	Constructor
 //************************************************************************
@@ -41,6 +48,7 @@ Program::Program(int motorNbr, int sensorNbr) {
 	circonference = 2 * 3.14159 * rayonMM;
 	this->motorList.reserve(motorNbr);
 	this->sensorList.reserve(sensorNbr);
+  
 }
 
 //************************************************************************
@@ -595,7 +603,7 @@ void Program::updateSensor(String sensorToUpdate) {
 
 void Program::testAsserv(int target_mm =1000) {
 	
-	avancer(target_mm);
+	//avancer(target_mm);
 
 	/*for (int i = 0; i < 2; i++) {
 		Program::avancer(target_mm);
@@ -619,25 +627,34 @@ double Program::calculateTicks(int target_mm) {
 	return (target_mm * gain * nbOfTicksPerRotation / circonference );
 }
 
-void Program::avancer(int target_mm) {
-
-	double target_ticks = calculateTicks(target_mm);
+void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
+  int target_mm=1000;
+  ledFront->setColorAll(200, 0, 0);
+  ledBack->setColorAll(200, 0, 0);
+  int target_ticks=calculateTicks(target_mm);
 	Serial.print("target_ticks : ");
 	Serial.println(target_ticks);
 
-	motorList[0]->setEncoderPos(0);
-	motorList[1]->setEncoderPos(0);
-	//  Serial.println("dedans avant while");
-
-	while (motorList[0]->getEncoderPos() < target_ticks) {
-		asservissement_vitesse_Motors(desiredSpeed, false);
-		Serial.print(motorList[0]->getEncoderPos());
-		Serial.print(" , ");
-		Serial.println(motorList[1]->getEncoderPos());
+	//motorList[0]->setEncoderPos(0);
+	//motorList[1]->setEncoderPos(0);
+	Serial.println("dedans avant while");
+  while (buttonPanel->analyze() != 5) {
+    if (encoder1Pos > target_ticks){
+      break;
+    }
+  motorList[0]->setSpeed(200);
+  motorList[1]->setSpeed(200);   
+  Serial.println(encoder1Pos);
+  //  asservissement_vitesse_Motors(125, false);
+	//	Serial.print(motorList[0]->getEncoderPos());
+		//Serial.print(" , ");
+	//	Serial.println(motorList[1]->getEncoderPos());
 	}
+  delay(200);
+  motorList[0]->setSpeed(0);
+  motorList[1]->setSpeed(0);
+  Serial.println("fin");
 
-	motorList[0]->setSpeed(0);
-	motorList[1]->setSpeed(0);
 	//  Serial.println("dedans apres while");
 
 }
@@ -797,4 +814,29 @@ int Program::pourcentToDigital(int pourcentage)  //Convertit un pourcentage posi
 	{ //Si le pourcentage est négatif, on renvois zero.
 		return (0);
 	}
+}
+
+//-------------------------------------------------Compteurs-------------------------------------------------------------------
+// Interruption appelée à tous les changements d'état
+
+static void Program::docount_1()  // counts from the speed sensor of Motor 1 (left)
+{
+  if (digitalRead(9) == HIGH && digitalRead(8) == LOW) {
+    encoder1Pos-- ;  // decrease -1 the counter value
+  }
+  else if (digitalRead(9) == LOW && digitalRead(8) == HIGH) {
+    encoder1Pos++ ;  // increase +1 the counter value
+  }
+  // encoder1Pos++ ; 
+}
+
+
+static void Program::docount_2()  // counts from the speed sensor of Motor 2 (right)
+{
+  if (digitalRead(7) == HIGH && digitalRead(6) == LOW) {
+    encoder2Pos++ ;
+  }
+  else if (digitalRead(7) == LOW && digitalRead(6)== HIGH) {
+    encoder2Pos-- ;
+  }
 }

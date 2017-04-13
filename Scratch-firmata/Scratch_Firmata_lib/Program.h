@@ -37,14 +37,19 @@ private:
 	static const int samplingPeriodMillis = 50;
 	static const int gain = 4;
 	static const int rayonMM = 24;      // Rayon de la Roue
-	
 	static const int rayon_base = 80;
 	static const int maxSpeed = 15;
 	static const int maxPower = 100;
 	float desiredSpeed; // en rotation par sec
+  
+
+   //init compteur :
+  int encoder1Pos = 0;
+  int encoder2Pos = 0;
+    
 
   public:
-
+    
 	//Constructors
     Program();
     Program(int, int);
@@ -63,16 +68,16 @@ private:
     void addMotor(Motor *const);		//add a motor object in the motor vector
     void addSensor(Sensor *const);		//add a sensor object in the sensor vector
     void addLed(Led *const);			//add a led strip object in the sensor vector
-
+    void init(Program *const);
     //for demo
     void dodger(ControlPanel *const, Led *const, Led *const);			//obstacle doger program
     void lineFollower(ControlPanel *const, Led *const, Led  *const);	//lie follower program
     void joystick(ControlPanel *const , Led *const, Led *const);		//joystick program
-	void useWifi(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);												//joystick with wifi
-
+   	void useWifi(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);												//joystick with wifi
+    
     //user programs
     void arduino();			//slot for the user program
-
+    
     //others
     bool checkLeft();
     bool checkRight();
@@ -84,11 +89,13 @@ private:
 	void initAsserv();
 	void testAsserv(int);
 	double calculateTicks(int target_mm);
-	void avancer(int target_mm);
+	void avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
 	void reculer(int target_mm);
 	void rotation(int angle, int sens);
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);
 	int pourcentToDigital(int pourcentage);
+  static void docount_1();
+  static void docount_2();
 };
 
 #endif /* PROGRAM_H */

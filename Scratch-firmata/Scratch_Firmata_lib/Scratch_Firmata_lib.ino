@@ -70,7 +70,7 @@ Last updated by Jeff Hoefs: August 9th, 2015
 
 using namespace std;
 int choice = -1;
-int locations = 4;
+int locations = 5;
 
 //------Motors--------://
 Motor motor_l = Motor(9, 8, 10);

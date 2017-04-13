@@ -52,6 +52,8 @@ public:
     float getRealSpeed();
     bool getDirection();
     int getEncoderPos();
+    int getPinInput2();
+    int getPinInput1();
     
     //setter
     void setSpeed(float);
