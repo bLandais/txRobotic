@@ -620,10 +620,16 @@ void Program::testAsserv(int target_mm =1000) {
 
 double Program::calculateTicks(int target_mm) {
 	return (target_mm * gain * nbOfTicksPerRotation / circonference );
+}  
+
+Program foo;
+void test(){
+  foo.init();
 }
 
 void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
-  init();
+  //test();
+  //foo.init();
   int target_mm=1000;
   ledFront->setColorAll(200, 0, 0);
   ledBack->setColorAll(200, 0, 0);
@@ -638,10 +644,11 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
     if (encoder1Pos > target_ticks){
       break;
     }
-  motorList[0]->setSpeed(200);
-  motorList[1]->setSpeed(200);   
+  asservissement_vitesse_Motors(200, false);
+  //motorList[0]->setSpeed(200);
+ // motorList[1]->setSpeed(200);   
  
-  //  asservissement_vitesse_Motors(125, false);
+
 	//	Serial.print(motorList[0]->getEncoderPos());
 		//Serial.print(" , ");
 	//	Serial.println(motorList[1]->getEncoderPos());
@@ -742,7 +749,7 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 	}
 
 	float erreur_cmd = percentPower_1 - percentPower_2;
-	//Serial.println(erreur_cmd);
+	Serial.println(erreur_cmd);
 
 	if (erreur_cmd < 0) {
 		percentPower_2 = percentPower_2 + erreur_cmd;
@@ -752,10 +759,10 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 		percentPower_1 = percentPower_1 - erreur_cmd;
 	}
 
-	//  Serial.print("commande en pourcentage pour Moteur gauche : ");
-	//  Serial.print(percentPower_1);
-	//  Serial.print(",  commande en pourcentage pour Moteur droit : ");
-	//  Serial.println(percentPower_1);
+	  Serial.print("commande en pourcentage pour Moteur gauche : ");
+	  Serial.print(percentPower_1);
+	  Serial.print(",  commande en pourcentage pour Moteur droit : ");
+   Serial.println(percentPower_2);
 
 	motorList[0]->setDirection(sens);
 	motorList[0]->setSpeed(pourcentToDigital(percentPower_1)); 
@@ -771,13 +778,13 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 	while (millis() - start < (samplingPeriodMillis)) {
 	}
 
-	//  Serial.print("start : ");
-	//  Serial.println(start);
+	  Serial.print("start : ");
+	  Serial.println(start);
 
 	int ticks_1 = motorList[0]->getEncoderPos() - startTicks_1;
 	int ticks_2 = motorList[1]->getEncoderPos() - startTicks_2;
 
-	//Serial.println(ticks_1);
+	Serial.println(ticks_1);
 
 	motorList[0]->setRealSpeed((ticks_1 / nbOfTicksPerRotation) / (samplingPeriodMillis / 1000.0)); // Vitesse réelle en rot/sec
 	motorList[1]->setRealSpeed((ticks_2 / nbOfTicksPerRotation) / (samplingPeriodMillis / 1000.0)); // Vitesse réelle en rot/sec
@@ -794,9 +801,9 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 	motorList[0]->addPowerValue(percentPower_1);
 	motorList[1]->addPowerValue(percentPower_2);
 
-	//Serial.println(ek_1);
+//	Serial.println(ek_1);
 
-	//return (percentPower_1);
+//	return (percentPower_1);
 
 }
 
@@ -819,9 +826,8 @@ int Program::pourcentToDigital(int pourcentage)  //Convertit un pourcentage posi
   
 void Program::init() {
     // Interruption de l'encodeur A en sortie 5 (pin 18)
-      instance = this;
-
     attachInterrupt(5, interruptCount1, RISING);   // increase counter of Motor 1 when speed sensor pin goes High
+    instance = this;
    // Interruption de l'encodeur B en sortie 4 (pin 19)
   //  attachInterrupt(4, docount_2, RISING);   // increase counter of Motor 2 when speed sensor pin goes High
 }
@@ -832,6 +838,7 @@ static void interruptCount1() {
     Program::instance->docount_1(&Program::instance->encoder1Pos);
   }
 }
+
 
 
 void docount_1(int* encoder1Pos)  // counts from the speed sensor of Motor 1 (left)

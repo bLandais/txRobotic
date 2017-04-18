@@ -30,7 +30,7 @@ public:
 static Program * instance;
  
 //   Program test;
-  int encoder1Pos = 0;
+  int encoder1Pos=0;
   int encoder2Pos = 0;
 
 private:
@@ -99,6 +99,7 @@ private:
   static void interruptCount1();
   void docount_1(int*);
   void docount_2();
+  void test();
  
 };
 

@@ -34,10 +34,10 @@ private:
       int encoderPos;
 
       //constants linked to motor
-      float b0;
-      float b1;
-      float a0;
-      float a1;
+      float b0=0.076;
+      float b1=0.157;
+      float a0=0.5353;
+      float a1=-1.535;
 
       float ek[3];
       float power[3]; //power over the present state + the 2 last states
