@@ -122,7 +122,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
     this->updateSensor("distance");
     for (int i = 0; i < this->sensorList.size(); i++) {
       if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 0 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("Reculer");
+        Serial.println("Reculer");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(false);
         motorList[0]->setSpeed(0);
@@ -132,7 +132,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         //i = 20; <<<<<<<<<<<<<<<<< Pourquoi utiliser un for pour en sortir à la fin du premier tour?
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 1 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner droite");
+        Serial.println("tourner droite");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[1]->setSpeed(0);
@@ -142,7 +142,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         //i = 20;
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 2 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner fort droite");
+        Serial.println("tourner fort droite");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(false);
         motorList[0]->setSpeed(255);
@@ -154,7 +154,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         }
         
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == -1 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner gauche");
+        Serial.println("tourner gauche");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(0);
@@ -165,7 +165,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
       }
       
         else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == -2 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner fort gauche");
+        Serial.println("tourner fort gauche");
         motorList[0]->setDirection(false);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(255);
@@ -176,7 +176,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         i = 20;
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && (this->sensorList[i]->getPosition() == 10 || this->sensorList[i]->getPosition() == -10)  && this->sensorList[i]->getValue() == true) {
-        //Serial.println("aller avant");
+        Serial.println("aller avant");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(255);
@@ -186,7 +186,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
       }
 
       else if (this->sensorList[0]->getValue() == false && this->sensorList[1]->getValue() == false && this->sensorList[2]->getValue() == false ){
-        //Serial.println("Tout droit");
+        Serial.println("Tout droit");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(150);
@@ -621,11 +621,6 @@ void Program::testAsserv(int target_mm =1000) {
 double Program::calculateTicks(int target_mm) {
 	return (target_mm * gain * nbOfTicksPerRotation / circonference );
 }  
-
-Program foo;
-void test(){
-  foo.init();
-}
 
 void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
   //test();

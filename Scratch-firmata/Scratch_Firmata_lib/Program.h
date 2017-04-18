@@ -99,8 +99,6 @@ private:
   static void interruptCount1();
   void docount_1(int*);
   void docount_2();
-  void test();
- 
 };
 
 #endif /* PROGRAM_H */
