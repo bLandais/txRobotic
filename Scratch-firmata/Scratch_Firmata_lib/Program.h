@@ -63,6 +63,9 @@ private:
     ControlPanel* getControls();
 
     //setters
+    void setEncoder1PosDecrease();
+    void setEncoder1PosIncrease();
+    
     void setControls(ControlPanel* newControlPanel);
 	void setData(Data* newData);
 	void setBuzzer(Buzzer* newBuzzer);
@@ -97,7 +100,6 @@ private:
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);
 	int pourcentToDigital(int pourcentage);
   static void interruptCount1();
-  void docount_1(int*);
   void docount_2();
 };
 

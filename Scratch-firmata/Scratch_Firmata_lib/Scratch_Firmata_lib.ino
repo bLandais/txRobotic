@@ -799,8 +799,32 @@ void systemResetCallback()
 	isResetting = false;
 }
 
+void docount_1(int* encoder1Pos)  // counts from the speed sensor of Motor 1 (left)
+{
+  if (digitalRead(9) == HIGH && digitalRead(8) == LOW) {
+   robot.setEncoder1PosDecrease(); // encoder1Pos-- ;  // decrease -1 the counter value
+  }
+  else if (digitalRead(9) == LOW && digitalRead(8) == HIGH) {
+   robot.setEncoder1PosIncrease(); // encoder1Pos++ ;  // increase +1 the counter value
+  }
+  // encoder1Pos++ ; 
+}
+
+
+void docount_2()  // counts from the speed sensor of Motor 2 (right)
+{
+  if (digitalRead(7) == HIGH && digitalRead(6) == LOW) {
+    // Program::instance->encoder2Pos++ ;
+  }
+  else if (digitalRead(7) == LOW && digitalRead(6)== HIGH) {
+    // Program::instance->encoder2Pos-- ;
+  }
+}
 
 void setup() {
+  attachInterrupt(5, docount_1, RISING);
+  attachInterrupt(4, docount_2, RISING);
+  
 	//------motor init-------://
 	motor_l.init();
 	motor_r.init();
