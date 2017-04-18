@@ -28,6 +28,7 @@ Last updated by Jeff Hoefs: August 9th, 2015
 #include <Wire.h>
 #include <Firmata.h>
 #include <Boards.h>
+#include <SoftwareSerial.h>
 
 #include <Adafruit_NeoPixel.h>
 
@@ -71,6 +72,13 @@ Last updated by Jeff Hoefs: August 9th, 2015
 using namespace std;
 int choice = -1;
 int locations = 4;
+
+//wifi settings
+int rxArduino = 51;
+int txArduino = 50;
+SoftwareSerial ESP8266(rxArduino, txArduino);
+String NomduReseauWifi = "papaWifi"; // Garder les guillements
+String MotDePasse      = "pass1234"; // Garder les guillements
 
 //------Motors--------://
 Motor motor_l = Motor(9, 8, 10);
@@ -199,6 +207,42 @@ std::vector<EmotionSprite> emotionsTab {happy,inLove,eyeCloses,crazyEye,deadEye,
 /*==============================================================================
 * FUNCTIONS
 *============================================================================*/
+//wifi*************************************
+void initESP8266()
+{
+  envoieAuESP8266("AT");
+  recoitDuESP8266(2000);   
+  envoieAuESP8266("AT+CWSAP=\"" + NomduReseauWifi + "\",\"" + MotDePasse + "\",11,2");
+  recoitDuESP8266(10000);
+  envoieAuESP8266("AT+CWMODE=3");
+  recoitDuESP8266(5000);
+  envoieAuESP8266("AT+RST");
+  recoitDuESP8266(5000);
+  envoieAuESP8266("AT+CIPMUX=1");
+  recoitDuESP8266(1000);
+  envoieAuESP8266("AT+CIPSERVER=1,8080");
+  recoitDuESP8266(1000);
+  Serial.println("Done");
+}
+void envoieAuESP8266(String commande)
+{
+  ESP8266.println(commande);
+}
+void recoitDuESP8266(const int timeout)
+{
+  String reponse = "";
+  long int time = millis();
+  while ( (time + timeout) > millis())
+  {
+    while (ESP8266.available())
+    {
+      char c = ESP8266.read();
+      reponse += c;
+    }
+  }
+  Serial.print(reponse);
+}
+//****************************************
 
 void readAndReportData(byte address, int theRegister, byte numBytes) {
 	// allow I2C requests that don't require a register read
@@ -801,6 +845,20 @@ void systemResetCallback()
 
 
 void setup() {
+  //wifi*******************************
+  pinMode(rxArduino, INPUT);
+  pinMode(txArduino, OUTPUT);
+  Serial.begin(57600);
+
+  ESP8266.begin(115200);
+  envoieAuESP8266("AT+CIOBAUD=57600");
+  recoitDuESP8266(4000);
+
+
+  ESP8266.begin(57600);
+  initESP8266();
+  //***********************************
+  
 	//------motor init-------://
 	motor_l.init();
 	motor_r.init();
@@ -921,7 +979,29 @@ delay(1000);
 	byte pin, analogPin;
 
 	// checkDigitalInputs();
-
+  
+  //wifi************************************
+  if(ESP8266.available())
+  {
+    if(ESP8266.read() == 0xF0)
+    {
+      Serial.println("reçu 0xFO");
+      byte mode = ESP8266.read();
+      byte argv[80];
+      byte argc = ESP8266.readBytesUntil((char)247, argv, 80);
+      if(argc > 0)
+      {
+        for(int i=0;i<argc;i++)
+        {
+          sysexCallback(mode, argc, argv); 
+        } 
+        Serial.println(argc);
+      }
+    }
+    
+  }
+  //****************************************
+  
 	while (Firmata.available())
 		Firmata.processInput();
 
