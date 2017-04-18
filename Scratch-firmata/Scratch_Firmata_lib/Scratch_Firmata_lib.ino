@@ -807,17 +807,17 @@ void docount_1(int* encoder1Pos)  // counts from the speed sensor of Motor 1 (le
   else if (digitalRead(9) == LOW && digitalRead(8) == HIGH) {
    robot.setEncoder1PosIncrease(); // encoder1Pos++ ;  // increase +1 the counter value
   }
-  // encoder1Pos++ ; 
+  robot.setEncoder1PosIncrease(); 
 }
 
 
-void docount_2()  // counts from the speed sensor of Motor 2 (right)
+void docount_2(int* encoder2Pos)  // counts from the speed sensor of Motor 2 (right)
 {
   if (digitalRead(7) == HIGH && digitalRead(6) == LOW) {
-    // Program::instance->encoder2Pos++ ;
+      robot.setEncoder2PosIncrease(); //encoder2Pos++ ;
   }
   else if (digitalRead(7) == LOW && digitalRead(6)== HIGH) {
-    // Program::instance->encoder2Pos-- ;
+      robot.setEncoder2PosDecrease();  //encoder2Pos-- ;
   }
 }
 

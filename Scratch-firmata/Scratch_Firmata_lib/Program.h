@@ -31,7 +31,7 @@ static Program * instance;
  
 //   Program test;
   int encoder1Pos=0;
-  int encoder2Pos = 0;
+  int encoder2Pos=0;
 
 private:
   std::vector<Motor*> motorList;		//used to store the motor list
@@ -65,10 +65,12 @@ private:
     //setters
     void setEncoder1PosDecrease();
     void setEncoder1PosIncrease();
+    void setEncoder2PosDecrease();
+    void setEncoder2PosIncrease();
     
     void setControls(ControlPanel* newControlPanel);
-	void setData(Data* newData);
-	void setBuzzer(Buzzer* newBuzzer);
+  	void setData(Data* newData);
+	  void setBuzzer(Buzzer* newBuzzer);
     //utilitaire
     void addMotor(Motor *const);		//add a motor object in the motor vector
     void addSensor(Sensor *const);		//add a sensor object in the sensor vector
@@ -93,7 +95,7 @@ private:
 	//speed control / position control
 	void initAsserv();
 	void testAsserv(int);
-	double calculateTicks(int target_mm);
+	long calculateTicks(int target_mm);
 	void avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
 	void reculer(int target_mm);
 	void rotation(int angle, int sens);
