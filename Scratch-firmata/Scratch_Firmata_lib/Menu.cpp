@@ -74,8 +74,8 @@ void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *
     case 2: //	orange:suivi de ligne
   	  robot->lineFollower(buttonPanel, ledFront, ledBack);
       break;          
-    case 3 : // wi fi joystick
-  		robot->useWifi(buttonPanel, ledFront, ledBack);
+    case 3 : // triangle
+  		robot->triangle(buttonPanel, ledFront, ledBack);
       break;
     case 4 :
       robot->avancer(buttonPanel, ledFront, ledBack);

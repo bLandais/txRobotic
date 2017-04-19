@@ -49,6 +49,7 @@ private:
 	static const int maxSpeed = 15;
 	static const int maxPower = 100;
 	float desiredSpeed; // en rotation par sec
+  float distance_desiree = 0;
  
   public:
     
@@ -94,11 +95,12 @@ private:
 
 	//speed control / position control
 	void initAsserv();
-	void testAsserv(int);
+	void triangle(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
 	long calculateTicks(int target_mm);
+  long target_ticks_rot;
 	void avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
-	void reculer(int target_mm);
-	void rotation(int angle, int sens);
+	void reculer(int target_mm,ControlPanel *const buttonPanel);
+	void rotation(int angle, int sens,ControlPanel *const buttonPanel);
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);
 	int pourcentToDigital(int pourcentage);
   static void interruptCount1();

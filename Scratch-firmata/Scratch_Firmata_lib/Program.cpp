@@ -596,39 +596,34 @@ void Program::updateSensor(String sensorToUpdate) {
 //    digitalWrite(sensCommand[i], LOW);
 //  }
 
-void Program::testAsserv(int target_mm =1000) {
-	
-	//avancer(target_mm);
+void Program::triangle(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
+	ledFront->setColorAll(255, 60, 60);
+  ledBack->setColorAll(255, 60, 60);
 
-	/*for (int i = 0; i < 2; i++) {
-		Program::avancer(target_mm);
-		delay(500);
+  int target_mm=1000;
+  avancer(buttonPanel,ledFront,ledBack);
+  delay(500);
+  rotation(300,0,buttonPanel);
+  delay(500);
+  avancer(buttonPanel,ledFront,ledBack);
+  delay(500);
+  rotation(300,0,buttonPanel);
+  delay(500);
+  avancer(buttonPanel,ledFront,ledBack);
 
-		Rotation(95, 1);
-		delay(500);
-
-		target_mm = 500;
-		Avancer(target_mm);
-		delay(500);
-
-		Rotation(95, 1);
-		delay(500);
-	}*/
+  
+  //reculer(target_mm,buttonPanel);
+ 
 }
-
-
-
+	
 long Program::calculateTicks(int target_mm) {
 	return (long)((long)target_mm * (long)gain* (long)nbOfTicksPerRotation/(long)circonference);//   );
 }  
 
 void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
-  //test();
-  //foo.init();
   encoder1Pos=0;
-  int target_mm=1000;
-  ledFront->setColorAll(200, 0, 0);
-  ledBack->setColorAll(200, 0, 0);
+ // ledFront->setColorAll(200, 0, 0);
+ // ledBack->setColorAll(200, 0, 0);
   long target_ticks=calculateTicks(1000);
 	Serial.print("target_ticks : ");
 	Serial.println(target_ticks);
@@ -645,11 +640,6 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
   //asservissement_vitesse_Motors(200, false);
   motorList[0]->setSpeed(200);
   motorList[1]->setSpeed(200);   
- 
-
-	//	Serial.print(motorList[0]->getEncoderPos());
-		//Serial.print(" , ");
-	//	Serial.println(motorList[1]->getEncoderPos());
 	}
   delay(200);
   motorList[0]->setSpeed(0);
@@ -660,35 +650,83 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
 
 }
 
-void Program::reculer(int target_mm) {
-
-	double target_ticks = calculateTicks(target_mm);
+void Program::reculer(int target_mm,ControlPanel *const buttonPanel) {
+  encoder1Pos=0;
+	long target_ticks = calculateTicks(target_mm);
 	//  Serial.print("target_ticks : ");
 	//  Serial.println(target_ticks);
 
-	motorList[0]->setEncoderPos(0);
-	motorList[1]->setEncoderPos(0);
-	//  Serial.println("dedans avant while");
-
-	while (motorList[0]->getEncoderPos() < target_ticks) {
-		asservissement_vitesse_Motors(desiredSpeed, true);
-		//    Serial.print(encoder1Pos);
-		//    Serial.print(" , ");
-		//    Serial.println(encoder2Pos);
-	}
-
-	motorList[0]->setSpeed(0);
-	motorList[1]->setSpeed(0);
+	//motorList[0]->setEncoderPos(0);
+ //	motorList[1]->setEncoderPos(0);
+	  Serial.println("dedans avant while");
+   while (buttonPanel->analyze() != 5) {
+   if (encoder1Pos > target_ticks){
+      break;
+    }
+     Serial.println("Encoderreculer:");
+     Serial.println(encoder1Pos);
+     motorList[0]->setDirection(false);
+     motorList[1]->setDirection(false);
+     motorList[0]->setSpeed(200);
+     motorList[1]->setSpeed(200); 
+    //  asservissement_vitesse_Motors(200, true);
+    //    Serial.print(encoder1Pos);
+    //    Serial.print(" , ");
+    //    Serial.println(encoder2Pos);
+     
+    }
+      Serial.println("dedans après while");
+    delay(200);
+   	motorList[0]->setSpeed(0);
+	  motorList[1]->setSpeed(0);
 
 	//  Serial.println("dedans apres while");
 
 }
 
-void Program::rotation(int angle, int sens) {      // Sens des aiguilles et sens inverse des aiguilles
-	float distance_desiree = (rayon_base * 3.14159 * 2 * angle) / 360.0;      // 2*Pi*R*angle / 360
-	double target_ticks = calculateTicks(distance_desiree);
+void Program::rotation(int angle, int sens,ControlPanel *const buttonPanel) {      // Sens des aiguilles et sens inverse des aiguilles
+	distance_desiree = (rayon_base * 3.14159 * 2 * angle) / 360.0;      // 2*Pi*R*angle / 360
+  long target_ticks_rot = ((long)distance_desiree * (long)gain * (long)nbOfTicksPerRotation) / (long)circonference;
 	//  Serial.println(target_ticks);
+  encoder1Pos = 0;
+  encoder2Pos = 0;
+  Serial.println(distance_desiree);
+  Serial.println(target_ticks_rot);
+  Serial.println("dans rotation");
 
+  if (sens == 0) {                            // Sens horaire
+    while (encoder1Pos < target_ticks_rot) {
+       if (buttonPanel->analyze() == 5) {
+       break;
+            }
+    Serial.println("Encoderrotation:");
+    Serial.println(encoder1Pos);
+    motorList[0]->setDirection(true);
+    motorList[1]->setDirection(true);
+    motorList[0]->setSpeed(200);
+    motorList[1]->setSpeed(0); 
+        }
+    motorList[0]->setSpeed(0);
+    motorList[1]->setSpeed(0); 
+    Serial.println("dans le if de rotation");
+  }
+  else if (sens == 1) {                       // sens anti-horaire
+    while (encoder2Pos < target_ticks_rot) {
+      if (buttonPanel->analyze() == 5) {
+      break;
+     }
+     motorList[0]->setDirection(true);
+     motorList[1]->setDirection(true);
+     motorList[0]->setSpeed(0);
+     motorList[1]->setSpeed(200); 
+    }
+     motorList[0]->setSpeed(0);
+     motorList[1]->setSpeed(0); 
+  
+  }
+
+}
+/*
 	motorList[0]->setEncoderPos(0);
 	motorList[1]->setEncoderPos(0);
 
@@ -714,7 +752,7 @@ void Program::rotation(int angle, int sens) {      // Sens des aiguilles et sens
 		motorList[0]->setSpeed(0);
 		motorList[1]->setSpeed(0);
 	}
-}
+}*/
 
 float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens)       // Asservissement du Moteur Gauche (1)
 {
