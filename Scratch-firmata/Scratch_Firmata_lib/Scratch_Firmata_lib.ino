@@ -983,22 +983,35 @@ delay(1000);
   //wifi************************************
   if(ESP8266.available())
   {
+    //Serial.println(ESP8266.readString());
+    ///*
     if(ESP8266.read() == 0xF0)
     {
       Serial.println("reçu 0xFO");
       byte mode = ESP8266.read();
+      Serial.print("reçu : ");
+      Serial.println(mode);
       byte argv[80];
-      byte argc = ESP8266.readBytesUntil((char)247, argv, 80);
-      if(argc > 0)
+      byte argc = 0;
+      byte chr = ESP8266.read();
+      while(chr != 0xF7 and argc < 30)
       {
+        Serial.print("reçu : ");
+        Serial.println(chr);
+        argv[argc] = chr;
+        chr = ESP8266.read();
+        argc++;
+      }
+      if(argc < 30 and argc > 0)
+      {
+        Serial.println("Arguments : ");
         for(int i=0;i<argc;i++)
         {
-          sysexCallback(mode, argc, argv); 
+           Serial.println(argv[i]);
         } 
-        Serial.println(argc);
+        sysexCallback(mode, argc, argv);
       }
-    }
-    
+    }//*/
   }
   //****************************************
   
