@@ -78,7 +78,7 @@ void Menu::runChoice(Program *const robot, ControlPanel *const buttonPanel,Led *
   		robot->triangle(buttonPanel, ledFront, ledBack);
       break;
     case 4 :
-      robot->avancer(buttonPanel, ledFront, ledBack);
+      robot->ligne_droite(buttonPanel, ledFront, ledBack);
     break;          
     default:
       break;
@@ -161,7 +161,7 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 Serial.write(0);
                 Serial.write(13);
                 delay(250);
-                // buzzer->playMelody(VALIDATE);
+                buzzer->playMelody(VALIDATE);
                 runChoice(robot, buttonPanel, ledFront, ledBack);
                 break;
                 
@@ -182,7 +182,7 @@ void Menu::runMenu(Program *const robot, ControlPanel *const buttonPanel, Led *c
                 ledBack->setColorAll(0, 0, 250);
                 break;
               case 2:
-                ledFront->setColorAll(255, 50, 160);//orange:suiveur de ligne
+                ledFront->setColorAll(255,0,50);//orange:suiveur de ligne
                 ledBack->setColorAll(255, 50, 160);
                 break;
               case 3:

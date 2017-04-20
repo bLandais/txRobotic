@@ -99,6 +99,7 @@ private:
 	long calculateTicks(int target_mm);
   long target_ticks_rot;
 	void avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
+  void ligne_droite(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack);
 	void reculer(int target_mm,ControlPanel *const buttonPanel);
 	void rotation(int angle, int sens,ControlPanel *const buttonPanel);
 	float asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens);

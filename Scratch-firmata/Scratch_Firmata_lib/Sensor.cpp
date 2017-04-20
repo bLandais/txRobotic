@@ -32,10 +32,10 @@ void Sensor::read(){
     // print out the value you read:
   digitalWrite(this->digitalPin, HIGH);
   analog = analogRead(analogPin);
-//  Serial.print("capteur ");
+  Serial.print("capteur ");
 //    Serial.print(i);
-//    Serial.print(" = ");
-//    Serial.println(analog);
+    Serial.print(" = ");
+    Serial.println(analog);
   digitalWrite(this->digitalPin, LOW);
 
   if(analog>=this->cap){

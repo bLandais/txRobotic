@@ -118,11 +118,11 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
   int speed = 110;
 
   do {
-
+ 
     this->updateSensor("distance");
     for (int i = 0; i < this->sensorList.size(); i++) {
       if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 0 && this->sensorList[i]->getValue() == true) {
-    //    Serial.println("Reculer");
+        Serial.println("Reculer");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(false);
         motorList[0]->setSpeed(0);
@@ -132,7 +132,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         //i = 20; <<<<<<<<<<<<<<<<< Pourquoi utiliser un for pour en sortir à la fin du premier tour?
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 1 && this->sensorList[i]->getValue() == true) {
-      //  Serial.println("tourner droite");
+        Serial.println("tourner droite");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[1]->setSpeed(0);
@@ -142,7 +142,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         //i = 20;
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == 2 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner fort droite");
+        Serial.println("tourner fort droite");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(false);
         motorList[0]->setSpeed(255);
@@ -154,7 +154,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         }
         
       else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == -1 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner gauche");
+        Serial.println("tourner gauche");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(0);
@@ -165,7 +165,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
       }
       
         else if (this->sensorList[i]->getType() == SensorType::infraR && this->sensorList[i]->getPosition() == -2 && this->sensorList[i]->getValue() == true) {
-        //Serial.println("tourner fort gauche");
+        Serial.println("tourner fort gauche");
         motorList[0]->setDirection(false);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(255);
@@ -176,7 +176,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
         i = 20;
       }
       else if (this->sensorList[i]->getType() == SensorType::infraR && (this->sensorList[i]->getPosition() == 10 || this->sensorList[i]->getPosition() == -10)  && this->sensorList[i]->getValue() == true) {
-        //Serial.println("aller avant");
+        Serial.println("aller avant");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(255);
@@ -186,7 +186,7 @@ void Program::dodger(ControlPanel *const buttonPanel, Led *const ledFront, Led *
       }
 
       else if (this->sensorList[0]->getValue() == false && this->sensorList[1]->getValue() == false && this->sensorList[2]->getValue() == false ){
-        //Serial.println("Tout droit");
+        Serial.println("Tout droit");
         motorList[0]->setDirection(true);
         motorList[1]->setDirection(true);
         motorList[0]->setSpeed(150);
@@ -263,7 +263,7 @@ void Program::lineFollower(ControlPanel *const buttonPanel, Led *const ledFront,
     {
       case 0 :
         if (etat1 != 0) {
-          //Serial.println("Tourner tout droit");
+          Serial.println("Tourner tout droit");
           motorList[0]->setDirection(true);
           motorList[1]->setDirection(true);
 		  motorList[1]->setSpeed(150);
@@ -276,7 +276,7 @@ void Program::lineFollower(ControlPanel *const buttonPanel, Led *const ledFront,
         break;
       case 1 :
         if (etat1 != 1) {
-          //Serial.println("Tourner gauche");
+          Serial.println("Tourner gauche");
           motorList[0]->setDirection(true);
           motorList[1]->setDirection(true);
 		  motorList[0]->setSpeed(0);
@@ -285,7 +285,7 @@ void Program::lineFollower(ControlPanel *const buttonPanel, Led *const ledFront,
         break;
       case 2 :
         if (etat1 != 2) {
-          //Serial.println("Tourner droite");
+          Serial.println("Tourner droite");
           motorList[0]->setDirection(true);
           motorList[1]->setDirection(true);
 		  motorList[1]->setSpeed(0);
@@ -617,7 +617,7 @@ void Program::triangle(ControlPanel *const buttonPanel, Led *const ledFront, Led
 }
 	
 long Program::calculateTicks(int target_mm) {
-	return (long)((long)target_mm * (long)gain* (long)nbOfTicksPerRotation/(long)circonference);//   );
+	return (long)((long)target_mm * (long)gain* (long)nbOfTicksPerRotation/(long)circonference);
 }  
 
 void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
@@ -637,7 +637,7 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
     if (encoder1Pos > target_ticks){
       break;
     }
-  //asservissement_vitesse_Motors(200, false);
+  //asservissement_vitesse_Motors(250, true);
   motorList[0]->setSpeed(200);
   motorList[1]->setSpeed(200);   
 	}
@@ -648,6 +648,32 @@ void Program::avancer(ControlPanel *const buttonPanel, Led *const ledFront, Led 
 
 	//  Serial.println("dedans apres while");
 
+}
+
+void Program::ligne_droite(ControlPanel *const buttonPanel, Led *const ledFront, Led *const ledBack) {
+  encoder1Pos=0;
+ // ledFront->setColorAll(200, 0, 0);
+ // ledBack->setColorAll(200, 0, 0);
+  long target_ticks=calculateTicks(1000);
+  Serial.print("target_ticks : ");
+  Serial.println(target_ticks);
+
+  //motorList[0]->setEncoderPos(0);
+  //motorList[1]->setEncoderPos(0);
+  Serial.println("dedans avant while");
+  while (buttonPanel->analyze() != 5) {
+    Serial.println("Encoder1:");
+    Serial.println(encoder1Pos);
+    if (encoder1Pos > target_ticks){
+      break;
+    }
+  asservissement_vitesse_Motors(250, true);
+ // motorList[0]->setSpeed(200);
+ // motorList[1]->setSpeed(200);   
+  }
+  delay(200);
+  motorList[0]->setSpeed(0);
+  motorList[1]->setSpeed(0);
 }
 
 void Program::reculer(int target_mm,ControlPanel *const buttonPanel) {
@@ -726,33 +752,7 @@ void Program::rotation(int angle, int sens,ControlPanel *const buttonPanel) {   
   }
 
 }
-/*
-	motorList[0]->setEncoderPos(0);
-	motorList[1]->setEncoderPos(0);
 
-	//  Serial.println("dans rotation");
-
-	if (sens == 0) {                            // Sens horaire
-		while (motorList[0]->getEncoderPos() < target_ticks) {
-			motorList[0]->setSpeed(180);
-			motorList[1]->setSpeed(0);
-			Serial.println(motorList[0]->getEncoderPos());
-
-		}
-		motorList[0]->setSpeed(0);
-		motorList[1]->setSpeed(0);
-		//    Serial.println("dans le if de rotation");
-	}
-	else if (sens == 1) {                       // sens anti-horaire
-		while (motorList[1]->getEncoderPos() < target_ticks) {
-			motorList[0]->setSpeed(0);
-			motorList[1]->setSpeed(180);
-			Serial.println(motorList[1]->getEncoderPos());
-		}
-		motorList[0]->setSpeed(0);
-		motorList[1]->setSpeed(0);
-	}
-}*/
 
 float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boolean sens)       // Asservissement du Moteur Gauche (1)
 {
@@ -808,8 +808,8 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 
 	// Record ticks over time
 	long start = millis();
-	int startTicks_1 = motorList[0]->getEncoderPos();
-	int startTicks_2 = motorList[1]->getEncoderPos();
+	int startTicks_1 = encoder1Pos;
+	int startTicks_2 = encoder2Pos;
 
 	while (millis() - start < (samplingPeriodMillis)) {
 	}
@@ -817,8 +817,8 @@ float Program::asservissement_vitesse_Motors(double desired_speed_RotPerSec, boo
 	//  Serial.print("start : ");
 //	  Serial.println(start);
 
-	int ticks_1 = motorList[0]->getEncoderPos() - startTicks_1;
-	int ticks_2 = motorList[1]->getEncoderPos() - startTicks_2;
+	int ticks_1 = encoder1Pos- startTicks_1;
+	int ticks_2 = encoder2Pos- startTicks_2;
 
 //	Serial.println(ticks_1);
 

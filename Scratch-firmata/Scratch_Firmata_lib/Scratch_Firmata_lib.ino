@@ -82,6 +82,10 @@ Sensor sensorAvG = Sensor(37, A10, 130, SensorType::infraR, -1);
 Sensor sensorAvM = Sensor(39, A11, 130, SensorType::infraR, 0);
 Sensor sensorAvD = Sensor(41, A12, 130, SensorType::infraR, 1);
 
+Sensor sensorLineLeft = Sensor(40, A0, 500, SensorType::line, 1);
+Sensor sensorLineRight = Sensor(42, A1, 500, SensorType::line, -1);
+
+
 //------LEDs----------://
 Led backLeds = Led(12, 2);
 Led frontLeds = Led(44, 6);
@@ -843,9 +847,20 @@ void setup() {
   robot.addMotor(&motor_l);
   robot.addMotor(&motor_r);
 
+  
+  robot.addSensor(&sensorAvG);
+  robot.addSensor(&sensorAvM);
+  robot.addSensor(&sensorAvD);
+
+  robot.addSensor(&sensorLineLeft);
+  robot.addSensor(&sensorLineRight);
+  
+
+  
 	robot.addLed(&frontLeds);
   robot.addLed(&backLeds);
 	robot.setControls(&controls);
+
 
 	//------turning bot-------://
 /*	backLeds.setColorAll(255, 255, 255);
