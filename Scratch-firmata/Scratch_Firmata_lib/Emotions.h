@@ -3,18 +3,18 @@
 
 /*
 
-// Defining constants
-#define dt 20                       // time difference in milli seconds
-#define rad2degree 57.3              // Radian to degree conversion
-#define Filter_gain 0.95             // e.g.  angle = angle_gyro*Filter_gain + angle_accel*(1-Filter_gain)
-#define BUFFER_SIZE 32
+  // Defining constants
+  #define dt 20                       // time difference in milli seconds
+  #define rad2degree 57.3              // Radian to degree conversion
+  #define Filter_gain 0.95             // e.g.  angle = angle_gyro*Filter_gain + angle_accel*(1-Filter_gain)
+  #define BUFFER_SIZE 32
 
-// Tableau à double dimensions des differents pattern possibles des yeux 
-int Eyes[55][8] = {
+  // Tableau à double dimensions des differents pattern possibles des yeux
+  int Eyes[55][8] = {
 	{ 60,66,129,153,153,129,66,60 }, //0
-	{ 60,66,129,141,141,129,66,60 }, //1 
-	{ 60,66,129,135,135,129,66,60 }, //2 
-	{ 60,66,129,177,177,129,66,60 }, //3 
+	{ 60,66,129,141,141,129,66,60 }, //1
+	{ 60,66,129,135,135,129,66,60 }, //2
+	{ 60,66,129,177,177,129,66,60 }, //3
 	{ 60,66,129,225,225,129,66,60 }, //4
 	{ 0,60,66,153,153,66,60,0 }, //5
 	{ 0,0,126,153,153,126,0,0 }, //6
@@ -66,14 +66,14 @@ int Eyes[55][8] = {
 	{ 112,248,112,36,14,31,14,4 }, //52
 	{ 16,16,56,254,56,18,23,2 }, //53
 	{ 255,255,255,255,255,255,255,255 }, //54
-};
+  };
 
 
-class Emotions : LedMatrix {
+  class Emotions : LedMatrix {
 
-private: 
+  private:
 
-public:
+  public:
 
 	//	VARIABLES
 	int patternNumber;
@@ -87,8 +87,8 @@ public:
 	void maxOne(int maxNr, int reg, int col);
 	void putByte(int data);
 
-	
 
-};
+
+  };
 */
 #endif /* EMOTIONS_H */

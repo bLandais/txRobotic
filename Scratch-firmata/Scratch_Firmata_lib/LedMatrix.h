@@ -26,29 +26,29 @@
 #define BUFFER_SIZE 32
 
 #include <StandardCplusplus.h>
-#include <vector> 
+#include <vector>
 
 #if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
+#include "arduino.h"
 #else
-	#include "WProgram.h"
+#include "WProgram.h"
 #endif
 class LedMatrix {
 
-public:
+  public:
 
-	int dataIn,		//DIN 
-		load,		//CS  
-		clock,		//CLK 
-		maxInUse;	//change this variable to set how many MAX7219's you'll use
+    int dataIn,		//DIN
+        load,		//CS
+        clock,		//CLK
+        maxInUse;	//change this variable to set how many MAX7219's you'll use
 
-	LedMatrix();
-	LedMatrix(int dataIn = 30, int load = 31, int clock = 32, int maxInUse = 1);
+    LedMatrix();
+    LedMatrix(int dataIn = 30, int load = 31, int clock = 32, int maxInUse = 1);
 
-	void printOnePattern(std::vector<int> arrayEye, int part);
-	void maxAll(int reg, int col);
-	void maxOne(int maxNr, int reg, int col);
-	void putByte(int data);
+    void printOnePattern(std::vector<int> arrayEye, int part);
+    void maxAll(int reg, int col);
+    void maxOne(int maxNr, int reg, int col);
+    void putByte(int data);
 
 };
 #endif

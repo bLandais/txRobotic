@@ -1,11 +1,11 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+  To change this license header, choose License Headers in Project Properties.
+  To change this template file, choose Tools | Templates
+  and open the template in the editor.
 */
 
 /*
-* File:   Buzzer.h
+  File:   Buzzer.h
 */
 
 #ifndef BUZZER_H
@@ -33,40 +33,40 @@
 
 class Buzzer {
 
-private:
-	int pin;
+  private:
+    int pin;
 
-	int delayRythme = 300;
-	int delayAttente = 100;
+    int delayRythme = 300;
+    int delayAttente = 100;
 
-	std::vector<int> welcomeSong;
-	std::vector<int> menuNext;
-	std::vector<int> validate;
+    std::vector<int> welcomeSong;
+    std::vector<int> menuNext;
+    std::vector<int> validate;
 
-public:
-	//Son ne pas oublier la fonction qui défini le pin
-	//Les fonctions qui jour les Buzzer.
-	Buzzer();
-	Buzzer(int); //definition du pin speaker
+  public:
+    //Son ne pas oublier la fonction qui défini le pin
+    //Les fonctions qui jour les Buzzer.
+    Buzzer();
+    Buzzer(int); //definition du pin speaker
 
-	void setDelayRythme(int time);
-	void setDelayAttente(int time);
+    void setDelayRythme(int time);
+    void setDelayAttente(int time);
 
-	void playSon(int frequency);
-	void playSonDelay(int frequency, int time);
+    void playSon(int frequency);
+    void playSonDelay(int frequency, int time);
 
-	void playNote(int octave,int note);
+    void playNote(int octave, int note);
 
-	void playMelody(int melody);
-	void playMusic(std::vector<int>);
+    void playMelody(int melody);
+    void playMusic(std::vector<int>);
 
-	void buzzerOnOff(bool state);
-	void buzzerOnOffDelay(bool state, int time);
+    void buzzerOnOff(bool state);
+    void buzzerOnOffDelay(bool state, int time);
 
-	void linkKey(char key); //TODO
-	void playKey(char key);	//TODO
-	void playMode();		//TODO
-	void createMelody();	//TODO
+    void linkKey(char key); //TODO
+    void playKey(char key);	//TODO
+    void playMode();		//TODO
+    void createMelody();	//TODO
 
 };
 

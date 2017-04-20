@@ -4,20 +4,20 @@
 
 class Data
 {
-public: 
+  public:
     int a; // Angle
-    int p; // Puissance 
-    int memory=0;
-public:
+    int p; // Puissance
+    int memory = 0;
+  public:
     Data();
-    Data(int,int);
-    void setData(int,int);
+    Data(int, int);
+    void setData(int, int);
     void setA(int);
     void setP(int);
     int getA();
     int getP();
     int analyze();
-   
+
 };
 
 #endif
