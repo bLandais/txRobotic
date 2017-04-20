@@ -1,10 +1,10 @@
 
-/* 
- * File:   Sensor.h
- * Author: Mathilde
- *
- * Created on 11 octobre 2016, 14:05
- */
+/*
+   File:   Sensor.h
+   Author: Mathilde
+
+   Created on 11 octobre 2016, 14:05
+*/
 
 #ifndef SENSOR_H
 #define SENSOR_H
@@ -14,19 +14,19 @@
 
 class Sensor {
 
-private:
+  private:
     SensorType type;
     int digitalPin;
     int analogPin;
     int cap;
-	int position;
-	bool value;
-    
+    int position;
+    bool value;
 
-public:
+
+  public:
     Sensor();
     Sensor(int, int, int, SensorType, int);
-    
+
     //getter
     bool getValue();
     SensorType getType();
@@ -38,9 +38,8 @@ public:
     void setPosition(int pos );
     void setCap(int);
 
-	//utilitaire
-	void read();
-
+    //utilitaire
+    void read();
 
 };
 

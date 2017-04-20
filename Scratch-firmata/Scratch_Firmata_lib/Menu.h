@@ -1,15 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+   To change this license header, choose License Headers in Project Properties.
+   To change this template file, choose Tools | Templates
+   and open the template in the editor.
+*/
 
-/* 
- * File:   Menu.h
- * Author: Mathilde
- *
- * Created on 18 octobre 2016, 15:11
- */
+/*
+   File:   Menu.h
+   Author: Mathilde
+
+   Created on 18 octobre 2016, 15:11
+*/
 
 #include "Led.h"
 #include "ControlPanel.h"
@@ -25,18 +25,18 @@ class Menu {
     int choice;
     int tempChoice;
     int locations;
-    
-public:    
+
+  public:
     Menu();				//Constructors
-    Menu(int);		
+    Menu(int);
 
     int getLocations(); //getters
-     
+
     void runMenu(Program *const, ControlPanel *const, Led *const, Led *const, Buzzer *const);	//Function to run the select mode menu
     void runChoice(Program *const, ControlPanel *const, Led *const, Led *const);				//Function to run the selected mode in the menu
-    
-private:
-    
+
+  private:
+
     void setLocations(int);	//setters
 };
 
