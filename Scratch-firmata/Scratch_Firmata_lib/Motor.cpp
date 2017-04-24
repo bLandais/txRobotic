@@ -17,25 +17,19 @@
 #include "Motor.h"
 
 //constructors
-
-Motor::Motor(int newPinInput1, int newPinInput2, int newEn) {
+Motor::Motor(int newPinInput1, int newPinInput2) {
   this->pinInput1 = newPinInput1;
   this->pinInput2 = newPinInput2;
-  this->en = newEn;
   Motor::setSpeed(0);
   Motor::setDirection(true);
 }
 
-Motor::Motor(int newPinInput1, int newPinInput2, int newEn, float speed = 0, bool direction = true) {
+Motor::Motor(int newPinInput1, int newPinInput2, float speed = 0, bool direction = true) {
   this->pinInput1 = newPinInput1;
   this->pinInput2 = newPinInput2;
-  this->en = newEn;
   Motor::setSpeed(speed);
   Motor::setDirection(direction);
 }
-
-
-
 
 //getters
 
@@ -76,7 +70,12 @@ void Motor::setSpeed(float newSpeed) {
 
   //register speed value
   this->speed = newSpeed;
-  analogWrite( this->en, newSpeed );
+  if(this->direction) {
+    analogWrite(this->pinInput1, newSpeed);
+  }
+  else {
+    analogWrite(this->pinInput2, newSpeed);
+  }
 }
 
 void Motor::setRealSpeed(float newRealSpeed)
@@ -86,17 +85,6 @@ void Motor::setRealSpeed(float newRealSpeed)
 
 void Motor::setDirection(bool newDirection) {
   this->direction = newDirection;
-  //handle clockwise
-  if (this->direction) {
-    // Clockwise
-    digitalWrite( this->pinInput1, LOW );             // Clockwise
-    digitalWrite( this->pinInput2, HIGH );
-  }
-  else {
-    digitalWrite( this->pinInput1, HIGH );             // anti-Clockwise
-    digitalWrite( this->pinInput2, LOW );
-  }
-
 }
 
 void Motor::setEncoderPos(int newEncoderPos)
@@ -109,7 +97,6 @@ void Motor::setEncoderPos(int newEncoderPos)
 bool Motor::init() {
   // initialize serial communication at 9600 bits per second:
   //Serial.begin(9600);
-  pinMode(this->en, OUTPUT);   // Sorties commande  moteur 1
   pinMode(this->pinInput1, OUTPUT);
   pinMode(this->pinInput2, OUTPUT);
 }

@@ -44,8 +44,8 @@ class Motor {
 
   public:
 
-    Motor(int, int, int);
-    Motor(int, int, int, float, bool);
+    Motor(int, int);
+    Motor(int, int, float, bool);
 
     //getter
     float getSpeed();
