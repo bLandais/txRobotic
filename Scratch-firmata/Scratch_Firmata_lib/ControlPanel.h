@@ -5,7 +5,6 @@
    Created on 18 octobre 2016, 11:37
 */
 
-
 #include "StandardCplusplus.h"
 #include "vector"
 #include "Button.h"

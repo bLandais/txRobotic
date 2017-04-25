@@ -1,4 +1,3 @@
-
 /*
    File:   Sensor.h
    Author: Mathilde
